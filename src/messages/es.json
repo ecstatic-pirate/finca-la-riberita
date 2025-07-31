@@ -1,0 +1,102 @@
+{
+  "navigation": {
+    "home": "Inicio",
+    "about": "Sobre Nosotros",
+    "gallery": "Galería",
+    "packages": "Paquetes",
+    "testimonials": "Testimonios",
+    "contact": "Contacto"
+  },
+  "hero": {
+    "title": "Finca La Riberita",
+    "subtitle": "El lugar perfecto para tus eventos y celebraciones",
+    "cta": "Conoce más"
+  },
+  "about": {
+    "title": "Sobre Nosotros",
+    "subtitle": "Un lugar mágico para momentos inolvidables",
+    "description": "Finca La Riberita es un espacio único para la celebración de eventos especiales. Ubicada en un entorno natural privilegiado, nuestra finca ofrece instalaciones modernas y servicios de primera calidad para hacer de tu evento una experiencia inolvidable.",
+    "features": {
+      "experience": {
+        "title": "Experiencia",
+        "description": "Más de 15 años creando momentos únicos"
+      },
+      "location": {
+        "title": "Ubicación",
+        "description": "Entorno natural con fácil acceso"
+      },
+      "service": {
+        "title": "Servicio",
+        "description": "Atención personalizada para cada evento"
+      }
+    }
+  },
+  "gallery": {
+    "title": "Galería",
+    "subtitle": "Descubre nuestros espacios"
+  },
+  "packages": {
+    "title": "Nuestros Servicios",
+    "subtitle": "Paquetes diseñados para cada ocasión",
+    "wedding": {
+      "title": "Bodas",
+      "description": "Celebra el día más importante de tu vida en un entorno mágico",
+      "features": [
+        "Ceremonia al aire libre",
+        "Banquete personalizado",
+        "Decoración floral",
+        "Música en vivo"
+      ]
+    },
+    "corporate": {
+      "title": "Eventos Corporativos",
+      "description": "Espacios versátiles para reuniones y eventos empresariales",
+      "features": [
+        "Salas de reuniones equipadas",
+        "Servicio de catering",
+        "Equipamiento audiovisual",
+        "Estacionamiento amplio"
+      ]
+    },
+    "social": {
+      "title": "Celebraciones Privadas",
+      "description": "Cumpleaños, aniversarios y todo tipo de celebraciones familiares",
+      "features": [
+        "Espacios personalizables",
+        "Menús a medida",
+        "Animación y entretenimiento",
+        "Servicio integral"
+      ]
+    }
+  },
+  "testimonials": {
+    "title": "Testimonios",
+    "subtitle": "Lo que dicen nuestros clientes"
+  },
+  "contact": {
+    "title": "Contacto",
+    "subtitle": "Estamos aquí para ayudarte",
+    "location-title": "Ubicación",
+    "form": {
+      "name": "Nombre",
+      "email": "Correo electrónico",
+      "phone": "Teléfono",
+      "eventType": "Tipo de evento",
+      "message": "Mensaje",
+      "submit": "Enviar mensaje"
+    },
+    "info": {
+      "address": "Dirección",
+      "addressValue": "37116 La Riberita, Salamanca",
+      "phone": "Teléfono",
+      "phoneValue": "+34 655 01 30 34",
+      "email": "Email",
+      "emailValue": "info@fincalariberita.com"
+    }
+  },
+  "footer": {
+    "rights": "Todos los derechos reservados",
+    "privacy": "Política de Privacidad",
+    "terms": "Términos y Condiciones"
+  }
+}

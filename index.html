@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finca La Riberita - Eventos y Celebraciones</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="container">
+                <div class="nav-wrapper">
+                    <h1 class="logo">Finca La Riberita</h1>
+                    <ul class="nav-menu">
+                        <li><a href="#inicio" data-translate="nav-home">Inicio</a></li>
+                        <li><a href="#sobre-nosotros" data-translate="nav-about">Sobre Nosotros</a></li>
+                        <li><a href="#servicios" data-translate="nav-services">Servicios</a></li>
+                        <li><a href="#galeria" data-translate="nav-gallery">Galería</a></li>
+                        <li><a href="#ubicacion" data-translate="nav-location">Ubicación</a></li>
+                        <li><a href="#contacto" data-translate="nav-contact">Contacto</a></li>
+                    </ul>
+                    <div class="language-switcher">
+                        <button onclick="changeLanguage('es')" class="lang-btn active" data-lang="es">ES</button>
+                        <button onclick="changeLanguage('en')" class="lang-btn" data-lang="en">EN</button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section id="inicio" class="hero">
+            <div class="hero-content">
+                <h2 class="hero-title" data-translate="hero-title">Bienvenidos a Finca La Riberita</h2>
+                <p class="hero-subtitle" data-translate="hero-subtitle">El lugar perfecto para tus eventos y celebraciones</p>
+            </div>
+        </section>
+
+        <section id="sobre-nosotros" class="about">
+            <div class="container">
+                <h2 data-translate="about-title">Sobre Nosotros</h2>
+                <p data-translate="about-description">
+                    Finca La Riberita es un espacio único para la celebración de eventos especiales. 
+                    Ubicada en un entorno natural privilegiado, nuestra finca ofrece instalaciones 
+                    modernas y servicios de primera calidad para hacer de tu evento una experiencia inolvidable.
+                </p>
+            </div>
+        </section>
+
+        <section id="servicios" class="services">
+            <div class="container">
+                <h2 data-translate="services-title">Nuestros Servicios</h2>
+                <div class="services-grid">
+                    <div class="service-card">
+                        <h3 data-translate="service-1-title">Bodas</h3>
+                        <p data-translate="service-1-desc">Celebra el día más importante de tu vida en un entorno mágico</p>
+                    </div>
+                    <div class="service-card">
+                        <h3 data-translate="service-2-title">Eventos Corporativos</h3>
+                        <p data-translate="service-2-desc">Espacios versátiles para reuniones y eventos empresariales</p>
+                    </div>
+                    <div class="service-card">
+                        <h3 data-translate="service-3-title">Celebraciones Privadas</h3>
+                        <p data-translate="service-3-desc">Cumpleaños, aniversarios y todo tipo de celebraciones familiares</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="ubicacion" class="location">
+            <div class="container">
+                <h2 data-translate="location-title">Ubicación</h2>
+                <p data-translate="location-desc">Encuéntranos fácilmente con Google Maps</p>
+                <div id="map" class="map-container"></div>
+            </div>
+        </section>
+
+        <section id="contacto" class="contact">
+            <div class="container">
+                <h2 data-translate="contact-title">Contacto</h2>
+                <div class="contact-info">
+                    <p data-translate="contact-phone">Teléfono: +34 XXX XXX XXX</p>
+                    <p data-translate="contact-email">Email: info@fincalariberita.com</p>
+                    <p data-translate="contact-address">Dirección: [Añadir dirección completa]</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Finca La Riberita. <span data-translate="footer-rights">Todos los derechos reservados.</span></p>
+        </div>
+    </footer>
+
+    <script src="translations.js"></script>
+    <script src="script.js"></script>
+    <script async defer 
+        src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap">
+    </script>
+</body>
+</html>

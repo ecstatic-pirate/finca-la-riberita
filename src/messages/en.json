@@ -1,0 +1,102 @@
+{
+  "navigation": {
+    "home": "Home",
+    "about": "About Us",
+    "gallery": "Gallery",
+    "packages": "Packages",
+    "testimonials": "Testimonials",
+    "contact": "Contact"
+  },
+  "hero": {
+    "title": "Finca La Riberita",
+    "subtitle": "The perfect place for your events and celebrations",
+    "cta": "Learn more"
+  },
+  "about": {
+    "title": "About Us",
+    "subtitle": "A magical place for unforgettable moments",
+    "description": "Finca La Riberita is a unique space for celebrating special events. Located in a privileged natural environment, our estate offers modern facilities and top-quality services to make your event an unforgettable experience.",
+    "features": {
+      "experience": {
+        "title": "Experience",
+        "description": "Over 15 years creating unique moments"
+      },
+      "location": {
+        "title": "Location",
+        "description": "Natural environment with easy access"
+      },
+      "service": {
+        "title": "Service",
+        "description": "Personalized attention for each event"
+      }
+    }
+  },
+  "gallery": {
+    "title": "Gallery",
+    "subtitle": "Discover our spaces"
+  },
+  "packages": {
+    "title": "Our Services",
+    "subtitle": "Packages designed for every occasion",
+    "wedding": {
+      "title": "Weddings",
+      "description": "Celebrate the most important day of your life in a magical setting",
+      "features": [
+        "Outdoor ceremony",
+        "Personalized banquet",
+        "Floral decoration",
+        "Live music"
+      ]
+    },
+    "corporate": {
+      "title": "Corporate Events",
+      "description": "Versatile spaces for meetings and business events",
+      "features": [
+        "Equipped meeting rooms",
+        "Catering service",
+        "Audiovisual equipment",
+        "Ample parking"
+      ]
+    },
+    "social": {
+      "title": "Private Celebrations",
+      "description": "Birthdays, anniversaries and all kinds of family celebrations",
+      "features": [
+        "Customizable spaces",
+        "Tailored menus",
+        "Animation and entertainment",
+        "Comprehensive service"
+      ]
+    }
+  },
+  "testimonials": {
+    "title": "Testimonials",
+    "subtitle": "What our clients say"
+  },
+  "contact": {
+    "title": "Contact",
+    "subtitle": "We're here to help you",
+    "location-title": "Location",
+    "form": {
+      "name": "Name",
+      "email": "Email",
+      "phone": "Phone",
+      "eventType": "Event type",
+      "message": "Message",
+      "submit": "Send message"
+    },
+    "info": {
+      "address": "Address",
+      "addressValue": "37116 La Riberita, Salamanca, Spain",
+      "phone": "Phone",
+      "phoneValue": "+34 655 01 30 34",
+      "email": "Email",
+      "emailValue": "info@fincalariberita.com"
+    }
+  },
+  "footer": {
+    "rights": "All rights reserved",
+    "privacy": "Privacy Policy",
+    "terms": "Terms and Conditions"
+  }
+}

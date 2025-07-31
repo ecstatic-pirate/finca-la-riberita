@@ -1,0 +1,1690 @@
+# Riberita Wedding Venue UX Audit & Improvement Plan
+
+## Executive Summary
+
+The Riberita wedding venue website demonstrates strong visual appeal and modern design principles, but reveals several critical UX gaps that could impact conversion rates and user satisfaction. Key findings indicate excellent aesthetics with concerning accessibility, navigation, and form usability issues that require immediate attention.
+
+### Key Findings Overview
+- **Strong Visual Design**: Modern, elegant aesthetic appropriate for luxury wedding venue
+- **Critical Accessibility Gaps**: Missing ARIA labels, poor keyboard navigation, insufficient color contrast
+- **Navigation Issues**: Inconsistent section linking, missing breadcrumbs, poor mobile UX
+- **Form Usability Problems**: Basic validation, no progress indicators, poor error handling
+- **Missing Key Components**: Packages and LoveStory components exist but aren't integrated
+- **Performance Concerns**: Large hero images without optimization, excessive DOM elements
+
+### Priority Assessment
+**High Priority (Immediate)**: Accessibility compliance, form functionality, mobile navigation
+**Medium Priority (Next Sprint)**: Content architecture, performance optimization  
+**Low Priority (Future)**: Enhanced interactions, advanced features
+
+---
+
+## Detailed UX Audit Results
+
+### 1. Information Architecture & Navigation Flow
+
+#### Current State Analysis
+The site follows a traditional single-page application structure with anchor-based navigation:
+
+**Navigation Structure:**
+```
+Home → About → Gallery → Testimonials → Contact
+```
+
+#### Critical Issues Identified
+
+**🔴 High Priority Issues:**
+- **Inconsistent Section Naming**: Footer references "Packages" but it's not in main navigation or page flow
+- **Missing Breadcrumbs**: Users have no clear indication of their current location
+- **Poor Mobile Navigation UX**: Hamburger menu lacks visual feedback for active states
+- **Broken Internal Linking**: Navigation references sections that may not align with actual IDs
+
+**🟡 Medium Priority Issues:**
+- **Linear Navigation Only**: No alternative paths or shortcuts for different user types
+- **Missing Skip Navigation**: Critical accessibility issue for screen readers
+- **No Sitemap or Alternative Navigation**: Power users have no comprehensive site overview
+
+#### Recommended Improvements
+
+```html
+<!-- Enhanced Navigation with Accessibility -->
+<nav role="navigation" aria-label="Main navigation">
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+  <div className="nav-brand">
+    <Link href="/" aria-label="Riberita Wedding Venue Homepage">
+      Riberita
+    </Link>
+  </div>
+  <!-- Navigation items with proper ARIA states -->
+</nav>
+```
+
+### 2. User Journey Analysis: Couples Booking Wedding Venue
+
+#### Current User Flow
+```
+Landing (Hero) → Learn About Venue (About) → View Spaces (Gallery) → 
+Social Proof (Testimonials) → Contact/Book (Contact Form)
+```
+
+#### Journey Friction Points
+
+**🔴 Critical Friction:**
+1. **No Clear Pricing Information**: Users can't evaluate budget fit early in journey
+2. **Missing Package Comparison**: Packages component exists but isn't integrated
+3. **Single Contact Method**: Only contact form, no phone/chat alternatives
+4. **No Tour Booking**: Critical missing functionality for venue selection
+
+**🟡 Medium Friction:**
+1. **No Availability Checking**: Users can't verify dates before contacting
+2. **Limited Social Proof**: Only 3 testimonials, no review integration
+3. **No Virtual Tour**: Static gallery doesn't provide comprehensive venue view
+
+#### Enhanced User Journey Recommendation
+
+```
+Landing → Quick Package Overview → Detailed Venue Info → 
+Gallery/Virtual Tour → Availability Check → Multiple Contact Options → 
+Follow-up Sequence
+```
+
+### 3. Component-by-Component Analysis
+
+#### Navigation Component (/src/components/Navigation.tsx)
+
+**Strengths:**
+- Responsive design with mobile hamburger menu
+- Smooth scroll behavior implemented
+- Dynamic styling based on scroll position
+
+**Critical Issues:**
+- **Accessibility**: Missing ARIA labels, no keyboard navigation indicators
+- **Mobile UX**: Menu doesn't close when clicking outside
+- **Active State**: No indication of current section
+- **Focus Management**: Poor keyboard navigation experience
+
+**Recommendations:**
+```tsx
+// Enhanced Navigation with Accessibility
+<nav role="navigation" aria-label="Main navigation">
+  <button 
+    onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+    aria-expanded={isMobileMenuOpen}
+    aria-controls="mobile-menu"
+    aria-label="Toggle navigation menu"
+  >
+    {/* Menu icon */}
+  </button>
+  <div id="mobile-menu" aria-hidden={!isMobileMenuOpen}>
+    {/* Menu items with proper focus management */}
+  </div>
+</nav>
+```
+
+#### Hero Component (/src/components/Hero.tsx)
+
+**Strengths:**
+- Visually stunning with dynamic content rotation
+- Multiple clear CTAs
+- Interactive story timeline feature
+- Time-based personalization
+
+**Critical Issues:**
+- **Performance**: Large unoptimized images loading simultaneously
+- **Accessibility**: Missing alt text structure, no pause control for animations
+- **Mobile**: Text may be too small on smaller screens
+- **SEO**: Dynamic content not easily crawlable
+
+**Recommendations:**
+- Implement lazy loading and image optimization
+- Add animation pause controls for accessibility
+- Provide static fallback for better SEO
+- Test readability across all device sizes
+
+#### About Component (/src/components/About.tsx)
+
+**Strengths:**
+- Clear value proposition presentation
+- Good balance of text and visuals
+- Feature highlights with icons
+
+**Issues:**
+- **Content Hierarchy**: Lack of scannable headings
+- **CTA Placement**: Single CTA at bottom, should have multiple touchpoints
+- **Social Proof Integration**: Could integrate testimonials or awards
+
+#### Gallery Component (/src/components/Gallery.tsx)
+
+**Strengths:**
+- Category filtering functionality
+- Lightbox feature for detailed viewing
+- Hover effects provide good interaction feedback
+
+**Critical Issues:**
+- **Accessibility**: Lightbox not keyboard accessible, missing alt text
+- **Performance**: All images load at once regardless of category
+- **Mobile**: Poor touch interaction for lightbox
+- **SEO**: Images not optimized for search discovery
+
+#### Contact Component (/src/components/Contact.tsx)
+
+**Critical Issues Identified:**
+
+**🔴 High Priority:**
+- **Form Validation**: Basic browser validation only, no real-time feedback
+- **Error Handling**: Alert-based error messaging, poor UX
+- **Accessibility**: Missing field descriptions, error announcements
+- **No Progress Indication**: Users don't know what happens after submission
+
+**🟡 Medium Priority:**
+- **Limited Input Types**: No rich input options (date picker styling, phone formatting)
+- **No Save/Resume**: Long form with no ability to save progress
+- **Missing Required Field Indicators**: Users don't know what's required upfront
+
+**Recommended Contact Form Enhancement:**
+```tsx
+<form onSubmit={handleSubmit} noValidate>
+  <fieldset>
+    <legend>Contact Information</legend>
+    <div className="field-group">
+      <label htmlFor="name">
+        Full Name <span aria-label="required">*</span>
+      </label>
+      <input
+        id="name"
+        name="name"
+        required
+        aria-describedby="name-error"
+        aria-invalid={errors.name ? 'true' : 'false'}
+      />
+      {errors.name && (
+        <div id="name-error" role="alert" className="error-message">
+          {errors.name}
+        </div>
+      )}
+    </div>
+  </fieldset>
+</form>
+```
+
+### 4. Mobile Responsiveness Assessment
+
+#### Current Mobile Experience
+
+**Strengths:**
+- Responsive grid layouts
+- Touch-friendly button sizes
+- Mobile-optimized navigation
+
+**Critical Issues:**
+- **Gallery Lightbox**: Poor touch interaction, no swipe gestures
+- **Form UX**: Small touch targets, difficult input focus
+- **Hero Content**: Text may be too small on mobile devices
+- **Loading Performance**: Heavy images impact mobile performance
+
+#### Mobile UX Recommendations
+
+1. **Touch Target Optimization**: Ensure all interactive elements meet 44px minimum
+2. **Gesture Support**: Add swipe navigation for gallery
+3. **Input Enhancement**: Improve form field focus and keyboard behavior
+4. **Performance**: Implement progressive image loading
+
+### 5. Accessibility Audit Results
+
+#### WCAG 2.1 Compliance Assessment
+
+**🔴 Critical Violations:**
+
+1. **Missing Landmark Navigation**: No skip links or landmark roles
+2. **Color Contrast Issues**: Some text combinations fail WCAG AA standards
+3. **Keyboard Navigation**: Many interactive elements not keyboard accessible
+4. **Missing Alt Text**: Images lack descriptive alt attributes
+5. **Form Accessibility**: Missing labels, error handling, field descriptions
+
+**🟡 Medium Priority:**
+1. **Heading Hierarchy**: Some sections skip heading levels
+2. **Focus Management**: Poor focus indicators and management
+3. **Screen Reader Support**: Missing ARIA labels and descriptions
+
+#### Accessibility Implementation Checklist
+
+- [ ] Add skip navigation links
+- [ ] Implement proper heading hierarchy
+- [ ] Add ARIA labels to all interactive elements
+- [ ] Ensure all images have descriptive alt text
+- [ ] Test and fix keyboard navigation
+- [ ] Implement proper form validation and error handling
+- [ ] Add sufficient color contrast throughout
+- [ ] Test with screen readers (JAWS, NVDA, VoiceOver)
+
+### 6. Performance Impact Analysis
+
+#### Current Performance Issues
+
+**Image Optimization:**
+- Multiple large hero images loading simultaneously
+- Gallery images not lazy-loaded
+- No responsive image sizes implemented
+
+**JavaScript Performance:**
+- Multiple timers running simultaneously
+- No intersection observer optimization
+- Potential memory leaks in timers
+
+**Recommended Optimizations:**
+```tsx
+// Optimized Image Loading
+<Image
+  src={slide.src}
+  alt={slide.alt}
+  fill
+  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+  priority={index === 0}
+  placeholder="blur"
+  blurDataURL="data:image/jpeg;base64,..."
+/>
+```
+
+### 7. Content Architecture Issues
+
+#### Missing Critical Content
+
+**🔴 High Priority Missing Elements:**
+1. **Pricing Information**: No clear pricing structure visible
+2. **Availability Calendar**: Users can't check date availability
+3. **Virtual Tour**: Critical for venue selection process
+4. **Detailed Venue Information**: Capacity, amenities, restrictions
+
+**🟡 Medium Priority:**
+1. **FAQ Section**: Common questions not addressed
+2. **Vendor Directory**: No preferred vendor information
+3. **Real Wedding Features**: Limited social proof
+
+#### Content Integration Issues
+
+Two components exist but aren't integrated into main flow:
+- **Packages Component**: Exists but not accessible via navigation
+- **LoveStory Component**: Sophisticated interactive component unused
+
+---
+
+## Prioritized Improvement Recommendations
+
+### High Priority (Immediate Implementation)
+
+#### 1. Accessibility Compliance
+**Timeline: 1-2 weeks**
+**Impact: Critical for legal compliance and user inclusion**
+
+```tsx
+// Priority Implementation Example
+<nav role="navigation" aria-label="Main navigation">
+  <a href="#main-content" className="skip-link">Skip to main content</a>
+  {/* Remaining navigation with proper ARIA labels */}
+</nav>
+
+<main id="main-content" tabIndex="-1">
+  {/* Main content with proper heading hierarchy */}
+</main>
+```
+
+#### 2. Contact Form Enhancement
+**Timeline: 1 week**
+**Impact: Direct conversion impact**
+
+- Implement real-time validation
+- Add proper error handling
+- Include progress indicators
+- Add multiple contact methods
+
+#### 3. Mobile Navigation Fix
+**Timeline: 3-5 days**
+**Impact: High mobile user impact**
+
+- Fix menu close behavior
+- Add active state indicators
+- Improve touch targets
+
+### Medium Priority (Next Sprint)
+
+#### 4. Content Integration
+**Timeline: 1-2 weeks**
+**Impact: Improved user journey**
+
+- Integrate Packages component into main flow
+- Add LoveStory section to enhance emotional connection
+- Implement pricing transparency
+
+#### 5. Performance Optimization
+**Timeline: 1 week**
+**Impact: User experience and SEO**
+
+- Implement image optimization
+- Add lazy loading
+- Optimize JavaScript performance
+
+#### 6. Enhanced Gallery Experience
+**Timeline: 1 week**
+**Impact: Key feature improvement**
+
+- Add keyboard accessibility to lightbox
+- Implement touch gestures for mobile
+- Add image optimization
+
+### Low Priority (Future Enhancements)
+
+#### 7. Advanced Features
+**Timeline: 2-4 weeks**
+**Impact: Competitive advantage**
+
+- Virtual tour integration
+- Availability calendar
+- Live chat functionality
+- Advanced booking system
+
+---
+
+## User Flow Diagrams
+
+### Current User Journey
+```
+Landing Page (Hero)
+        ↓
+   Learn About Venue (About)
+        ↓
+   View Spaces (Gallery)
+        ↓
+   Read Testimonials
+        ↓
+   Contact Form → [BLACK BOX] → Hope for Response
+```
+
+### Recommended Enhanced Journey
+```
+Landing Page (Hero)
+        ↓
+   Quick Package Overview ← [NEW]
+        ↓
+   Detailed Venue Info (About)
+        ↓
+   Virtual Tour/Gallery ← [ENHANCED]
+        ↓
+   Check Availability ← [NEW]
+        ↓
+   Multiple Contact Options ← [ENHANCED]
+        ↓
+   Confirmation & Next Steps ← [NEW]
+```
+
+---
+
+## Accessibility Checklist
+
+### Immediate Actions Required
+
+**Navigation:**
+- [ ] Add skip navigation links
+- [ ] Implement proper ARIA labels for menu states
+- [ ] Add keyboard navigation support
+- [ ] Include active page/section indicators
+
+**Content:**
+- [ ] Establish proper heading hierarchy (h1 → h2 → h3)
+- [ ] Add descriptive alt text for all images
+- [ ] Ensure adequate color contrast (4.5:1 minimum)
+- [ ] Add landmark roles (main, navigation, complementary)
+
+**Forms:**
+- [ ] Associate labels with form controls
+- [ ] Implement proper error handling and announcements
+- [ ] Add field descriptions where needed
+- [ ] Ensure keyboard accessibility for all form elements
+
+**Interactive Elements:**
+- [ ] Add focus indicators for all interactive elements
+- [ ] Ensure sufficient touch target sizes (44px minimum)
+- [ ] Implement proper ARIA states for dynamic content
+- [ ] Add alternative text for icon-only buttons
+
+### Testing Requirements
+
+**Screen Reader Testing:**
+- [ ] Test with JAWS (Windows)
+- [ ] Test with NVDA (Windows)
+- [ ] Test with VoiceOver (macOS/iOS)
+- [ ] Test with TalkBack (Android)
+
+**Keyboard Testing:**
+- [ ] Tab navigation through all interactive elements
+- [ ] Arrow key navigation for menus and galleries
+- [ ] Enter/Space activation for buttons
+- [ ] Escape key for modal/overlay dismissal
+
+---
+
+## Mobile UX Considerations
+
+### Touch Interaction Design
+- **Minimum Touch Target**: 44px × 44px for all interactive elements
+- **Gesture Support**: Swipe navigation for gallery, pinch-to-zoom for images
+- **Touch Feedback**: Visual feedback for all touch interactions
+
+### Mobile-First Recommendations
+```css
+/* Enhanced touch targets */
+.touch-target {
+  min-height: 44px;
+  min-width: 44px;
+  padding: 12px;
+}
+
+/* Improved focus indicators */
+.focus-visible {
+  outline: 2px solid #007ACC;
+  outline-offset: 2px;
+}
+```
+
+### Responsive Design Improvements
+- **Typography Scaling**: Implement responsive typography scales
+- **Content Prioritization**: Show most important content first on mobile
+- **Progressive Enhancement**: Ensure core functionality works without JavaScript
+
+---
+
+## Implementation Timeline
+
+### Phase 1: Critical Issues (Weeks 1-2)
+1. Accessibility compliance implementation
+2. Contact form enhancement
+3. Mobile navigation fixes
+4. Basic performance optimization
+
+### Phase 2: User Experience Enhancement (Weeks 3-4)
+1. Content integration (Packages, LoveStory)
+2. Gallery improvements
+3. Advanced form features
+4. Performance optimization completion
+
+### Phase 3: Advanced Features (Weeks 5-8)
+1. Availability calendar integration
+2. Virtual tour implementation
+3. Advanced analytics and tracking
+4. A/B testing setup for conversion optimization
+
+---
+
+## Success Metrics
+
+### Key Performance Indicators
+- **Conversion Rate**: Contact form submissions per visitor
+- **User Engagement**: Time on site, scroll depth, interaction rates
+- **Accessibility Compliance**: WAVE/axe audit scores
+- **Performance**: Core Web Vitals scores
+- **Mobile Experience**: Mobile conversion rates, bounce rates
+
+### Monitoring Plan
+- Weekly accessibility audits
+- Monthly performance reviews
+- Quarterly user testing sessions
+- Continuous A/B testing for form optimization
+
+---
+
+## Implementation Review and Technical Recommendations
+
+### Technical Feasibility Assessment
+
+Based on the UX audit findings, this implementation review provides detailed technical guidance for executing the recommended improvements while maintaining code quality and performance standards.
+
+### 1. Accessibility Implementation Strategy
+
+#### Technical Assessment: **HIGH FEASIBILITY**
+The accessibility improvements are technically straightforward but require systematic implementation across all components.
+
+**Implementation Approach:**
+```tsx
+// Enhanced Navigation with Full Accessibility
+interface NavigationProps {
+  activeSection?: string;
+  isScrolled?: boolean;
+}
+
+export default function Navigation({ activeSection, isScrolled }: NavigationProps) {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [announceMenuState, setAnnounceMenuState] = useState('');
+
+  // Close menu on outside click
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (isMobileMenuOpen && !event.target?.closest('[data-navigation-menu]')) {
+        setIsMobileMenuOpen(false);
+        setAnnounceMenuState('Menu closed');
+      }
+    };
+    document.addEventListener('click', handleClickOutside);
+    return () => document.removeEventListener('click', handleClickOutside);
+  }, [isMobileMenuOpen]);
+
+  return (
+    <>
+      {/* Screen reader announcements */}
+      <div role="status" aria-live="polite" className="sr-only">
+        {announceMenuState}
+      </div>
+      
+      <nav role="navigation" aria-label="Main navigation" data-navigation-menu>
+        <a href="#main-content" className="skip-link">
+          Skip to main content
+        </a>
+        
+        <button
+          onClick={() => {
+            setIsMobileMenuOpen(!isMobileMenuOpen);
+            setAnnounceMenuState(isMobileMenuOpen ? 'Menu closed' : 'Menu opened');
+          }}
+          aria-expanded={isMobileMenuOpen}
+          aria-controls="mobile-menu"
+          aria-label="Toggle navigation menu"
+          className="md:hidden p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+        >
+          <span className="sr-only">
+            {isMobileMenuOpen ? 'Close menu' : 'Open menu'}
+          </span>
+          {/* Menu icon with animation */}
+        </button>
+        
+        <div 
+          id="mobile-menu" 
+          aria-hidden={!isMobileMenuOpen}
+          className={cn(
+            "mobile-menu-transition",
+            isMobileMenuOpen ? "opacity-100 visible" : "opacity-0 invisible"
+          )}
+        >
+          {MENU_ITEMS.map((item, index) => (
+            <a
+              key={item.id}
+              href={`#${item.id}`}
+              aria-current={activeSection === item.id ? 'page' : undefined}
+              className={cn(
+                "nav-link focus:outline-none focus:ring-2 focus:ring-primary",
+                activeSection === item.id && "active"
+              )}
+              onClick={() => {
+                setIsMobileMenuOpen(false);
+                setAnnounceMenuState('Menu closed');
+              }}
+            >
+              {item.label}
+            </a>
+          ))}
+        </div>
+      </nav>
+    </>
+  );
+}
+```
+
+**Component Architecture:**
+- Create `AccessibilityProvider` context for managing focus and announcements
+- Implement `useA11yFocus` hook for focus management
+- Create `SkipLink` component for reusability across pages
+
+**Estimated Effort:** 3-5 days
+**Performance Impact:** Minimal (< 2KB bundle increase)
+
+### 2. Contact Form Enhancement Implementation
+
+#### Technical Assessment: **HIGH FEASIBILITY**
+Form improvements require robust validation library and state management restructuring.
+
+**Recommended Tech Stack:**
+- **Validation**: React Hook Form + Zod schema validation
+- **UI Components**: Headless UI for accessible form elements
+- **State Management**: Custom context for form progress tracking
+
+**Implementation Example:**
+```tsx
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
+
+const contactSchema = z.object({
+  name: z.string().min(2, 'Name must be at least 2 characters'),
+  email: z.string().email('Please enter a valid email address'),
+  phone: z.string().regex(/^\+?[\d\s-()]+$/, 'Please enter a valid phone number'),
+  eventDate: z.string().refine(
+    (date) => new Date(date) > new Date(),
+    'Event date must be in the future'
+  ),
+  guestCount: z.number().min(1).max(500),
+  message: z.string().min(10, 'Please provide more details about your event'),
+  budget: z.enum(['under-10k', '10k-25k', '25k-50k', '50k-plus']),
+});
+
+type ContactFormData = z.infer<typeof contactSchema>;
+
+export default function ContactForm() {
+  const [step, setStep] = useState(1);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isValid, touchedFields },
+    watch,
+    trigger,
+  } = useForm<ContactFormData>({
+    resolver: zodResolver(contactSchema),
+    mode: 'onBlur',
+  });
+
+  const onSubmit = async (data: ContactFormData) => {
+    setIsSubmitting(true);
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+      
+      if (!response.ok) throw new Error('Failed to send message');
+      
+      // Show success state with next steps
+      setStep(4);
+    } catch (error) {
+      // Handle error with user-friendly message
+      console.error('Contact form error:', error);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  return (
+    <div className="max-w-2xl mx-auto">
+      {/* Progress indicator */}
+      <ProgressIndicator currentStep={step} totalSteps={3} />
+      
+      <form onSubmit={handleSubmit(onSubmit)} noValidate>
+        {step === 1 && (
+          <fieldset>
+            <legend className="text-xl font-semibold mb-6">
+              Tell us about yourself
+            </legend>
+            
+            <FormField
+              label="Full Name"
+              required
+              error={errors.name?.message}
+              {...register('name')}
+            />
+            
+            <FormField
+              label="Email Address"
+              type="email"
+              required
+              error={errors.email?.message}
+              {...register('email')}
+            />
+            
+            <FormField
+              label="Phone Number"
+              type="tel"
+              required
+              error={errors.phone?.message}
+              {...register('phone')}
+            />
+          </fieldset>
+        )}
+        
+        {/* Multi-step form implementation */}
+        <FormNavigation 
+          onNext={() => setStep(step + 1)}
+          onPrev={() => setStep(step - 1)}
+          isValid={isValid}
+          step={step}
+        />
+      </form>
+    </div>
+  );
+}
+```
+
+**Performance Optimizations:**
+- Lazy load form steps to reduce initial bundle
+- Implement debounced validation to reduce API calls
+- Use React.memo for form field components
+
+**Estimated Effort:** 5-7 days
+**Performance Impact:** +15KB (form validation libraries)
+
+### 3. Mobile Navigation Architecture
+
+#### Technical Assessment: **MEDIUM FEASIBILITY**
+Requires responsive design system overhaul and gesture handling implementation.
+
+**Component Structure:**
+```tsx
+// Mobile-first navigation system
+interface MobileNavigationProps {
+  isOpen: boolean;
+  onToggle: () => void;
+  activeSection: string;
+}
+
+export default function MobileNavigation({ isOpen, onToggle, activeSection }: MobileNavigationProps) {
+  const [isClosing, setIsClosing] = useState(false);
+  
+  // Handle swipe gestures for menu
+  const { handlers } = useSwipeable({
+    onSwipedLeft: () => onToggle(),
+    onSwipedRight: () => onToggle(),
+    trackMouse: true,
+  });
+
+  return (
+    <AnimatePresence>
+      {isOpen && (
+        <motion.div
+          initial={{ x: '-100%' }}
+          animate={{ x: 0 }}
+          exit={{ x: '-100%' }}
+          transition={{ type: 'tween', duration: 0.3 }}
+          className="fixed inset-y-0 left-0 z-50 w-80 bg-white shadow-xl"
+          {...handlers}
+        >
+          <div className="flex flex-col h-full">
+            <div className="flex items-center justify-between p-6 border-b">
+              <h2 className="text-xl font-semibold">Menu</h2>
+              <button
+                onClick={onToggle}
+                aria-label="Close menu"
+                className="p-2 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-primary"
+              >
+                <X className="w-6 h-6" />
+              </button>
+            </div>
+            
+            <nav className="flex-1 overflow-y-auto py-6">
+              {MENU_ITEMS.map((item) => (
+                <MobileNavItem
+                  key={item.id}
+                  item={item}
+                  isActive={activeSection === item.id}
+                  onClick={onToggle}
+                />
+              ))}
+            </nav>
+          </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+}
+```
+
+**Third-party Libraries:**
+- **Framer Motion**: For smooth animations (already in use)
+- **React Swipeable**: For gesture handling (+5KB)
+- **React Use Gesture**: Alternative with more features (+12KB)
+
+**Estimated Effort:** 3-4 days
+**Performance Impact:** +5-12KB depending on gesture library choice
+
+### 4. Gallery Enhancement Implementation
+
+#### Technical Assessment: **MEDIUM-HIGH COMPLEXITY**
+Requires implementing accessible lightbox with keyboard navigation and touch gestures.
+
+**Architecture Approach:**
+```tsx
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation, Pagination, Keyboard, A11y } from 'swiper/modules';
+
+interface GalleryLightboxProps {
+  images: GalleryImage[];
+  initialIndex: number;
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+export default function GalleryLightbox({ images, initialIndex, isOpen, onClose }: GalleryLightboxProps) {
+  const [currentIndex, setCurrentIndex] = useState(initialIndex);
+  const swiperRef = useRef<any>(null);
+
+  // Keyboard navigation
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      switch (event.key) {
+        case 'ArrowLeft':
+          swiperRef.current?.slidePrev();
+          break;
+        case 'ArrowRight':
+          swiperRef.current?.slideNext();
+          break;
+        case 'Escape':
+          onClose();
+          break;
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen, onClose]);
+
+  return (
+    <AnimatePresence>
+      {isOpen && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 z-50 bg-black bg-opacity-90 flex items-center justify-center"
+          onClick={(e) => e.target === e.currentTarget && onClose()}
+          role="dialog"
+          aria-label="Image gallery lightbox"
+          aria-modal="true"
+        >
+          <div className="relative w-full h-full max-w-7xl max-h-full">
+            {/* Close button */}
+            <button
+              onClick={onClose}
+              className="absolute top-4 right-4 z-10 p-2 text-white bg-black bg-opacity-50 rounded-full hover:bg-opacity-70 focus:outline-none focus:ring-2 focus:ring-white"
+              aria-label="Close gallery"
+            >
+              <X className="w-6 h-6" />
+            </button>
+
+            <Swiper
+              modules={[Navigation, Pagination, Keyboard, A11y]}
+              initialSlide={initialIndex}
+              navigation={{
+                prevEl: '.swiper-button-prev-custom',
+                nextEl: '.swiper-button-next-custom',
+              }}
+              pagination={{ clickable: true }}
+              keyboard={{ enabled: true }}
+              a11y={{
+                prevSlideMessage: 'Previous image',
+                nextSlideMessage: 'Next image',
+                paginationBulletMessage: 'Go to slide {{index}}',
+              }}
+              onSlideChange={(swiper) => setCurrentIndex(swiper.activeIndex)}
+              onSwiper={(swiper) => {
+                swiperRef.current = swiper;
+              }}
+              className="h-full"
+            >
+              {images.map((image, index) => (
+                <SwiperSlide key={image.id}>
+                  <div className="flex items-center justify-center h-full p-8">
+                    <Image
+                      src={image.src}
+                      alt={image.alt}
+                      width={1200}
+                      height={800}
+                      className="max-w-full max-h-full object-contain"
+                      priority={Math.abs(index - currentIndex) <= 1}
+                    />
+                  </div>
+                </SwiperSlide>
+              ))}
+            </Swiper>
+
+            {/* Custom navigation buttons */}
+            <button className="swiper-button-prev-custom absolute left-4 top-1/2 transform -translate-y-1/2 z-10 p-3 text-white bg-black bg-opacity-50 rounded-full hover:bg-opacity-70 focus:outline-none focus:ring-2 focus:ring-white">
+              <ChevronLeft className="w-8 h-8" />
+            </button>
+            <button className="swiper-button-next-custom absolute right-4 top-1/2 transform -translate-y-1/2 z-10 p-3 text-white bg-black bg-opacity-50 rounded-full hover:bg-opacity-70 focus:outline-none focus:ring-2 focus:ring-white">
+              <ChevronRight className="w-8 h-8" />
+            </button>
+
+            {/* Image counter */}
+            <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 text-white bg-black bg-opacity-50 px-4 py-2 rounded-full">
+              {currentIndex + 1} of {images.length}
+            </div>
+          </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+}
+```
+
+**Performance Optimizations:**
+- Implement virtual scrolling for large galleries
+- Lazy load images with intersection observer
+- Use WebP format with fallbacks
+- Implement progressive image enhancement
+
+**Third-party Libraries:**
+- **Swiper**: For touch gestures and accessibility (+25KB)
+- **React Intersection Observer**: For lazy loading (+3KB)
+
+**Estimated Effort:** 5-7 days
+**Performance Impact:** +28KB initial, significant runtime performance improvement
+
+### 5. Design System Implementation
+
+#### Technical Assessment: **HIGH FEASIBILITY**
+Requires establishing design tokens and component library structure.
+
+**Design Tokens Structure:**
+```tsx
+// tokens/colors.ts
+export const colors = {
+  primary: {
+    50: '#eff6ff',
+    100: '#dbeafe',
+    500: '#005AFF', // Primary brand color
+    600: '#0047cc',
+    900: '#1e3a8a',
+  },
+  gray: {
+    50: '#f9fafb',
+    100: '#f3f4f6',
+    200: '#e5e7eb',
+    600: '#6b7280',
+    700: '#374151',
+    900: '#1f2937',
+  },
+  success: '#10b981',
+  error: '#ef4444',
+  warning: '#f59e0b',
+} as const;
+
+// tokens/spacing.ts
+export const spacing = {
+  xs: '0.25rem',  // 4px
+  sm: '0.5rem',   // 8px
+  md: '1rem',     // 16px
+  lg: '1.5rem',   // 24px
+  xl: '2rem',     // 32px
+  '2xl': '3rem',  // 48px
+  '3xl': '4rem',  // 64px
+} as const;
+
+// tokens/typography.ts
+export const typography = {
+  fontFamily: {
+    primary: ['Inter', 'system-ui', 'sans-serif'],
+    heading: ['Inter', 'system-ui', 'sans-serif'],
+  },
+  fontSize: {
+    xs: ['0.75rem', { lineHeight: '1rem' }],
+    sm: ['0.875rem', { lineHeight: '1.25rem' }],
+    base: ['1rem', { lineHeight: '1.5rem' }],
+    lg: ['1.125rem', { lineHeight: '1.75rem' }],
+    xl: ['1.25rem', { lineHeight: '1.75rem' }],
+    '2xl': ['1.5rem', { lineHeight: '2rem' }],
+    '3xl': ['1.875rem', { lineHeight: '2.25rem' }],
+  },
+} as const;
+```
+
+**Component Library Structure:**
+```tsx
+// components/ui/Button.tsx
+interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  variant?: 'primary' | 'secondary' | 'outline' | 'ghost';
+  size?: 'sm' | 'md' | 'lg';
+  loading?: boolean;
+  children: React.ReactNode;
+}
+
+export default function Button({
+  variant = 'primary',
+  size = 'md',
+  loading = false,
+  className,
+  children,
+  disabled,
+  ...props
+}: ButtonProps) {
+  return (
+    <button
+      className={cn(
+        // Base styles
+        'inline-flex items-center justify-center rounded-xl font-medium transition-colors',
+        'focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500',
+        'disabled:opacity-50 disabled:cursor-not-allowed',
+        
+        // Size variants
+        {
+          'h-8 px-3 text-sm': size === 'sm',
+          'h-10 px-4 text-base': size === 'md',
+          'h-12 px-6 text-lg': size === 'lg',
+        },
+        
+        // Color variants
+        {
+          'bg-primary-500 text-white hover:bg-primary-600': variant === 'primary',
+          'bg-gray-100 text-gray-900 hover:bg-gray-200': variant === 'secondary',
+          'border border-gray-300 bg-white text-gray-700 hover:bg-gray-50': variant === 'outline',
+          'text-gray-700 hover:bg-gray-100': variant === 'ghost',
+        },
+        
+        className
+      )}
+      disabled={disabled || loading}
+      {...props}
+    >
+      {loading && (
+        <svg className="animate-spin -ml-1 mr-2 h-4 w-4" fill="none" viewBox="0 0 24 24">
+          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+          <path className="opacity-75" fill="currentColor" d="m4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+        </svg>
+      )}
+      {children}
+    </button>
+  );
+}
+```
+
+**Estimated Effort:** 7-10 days
+**Performance Impact:** Minimal (better tree-shaking with proper component structure)
+
+### 6. Animation and Interaction Specifications
+
+#### Technical Assessment: **MEDIUM FEASIBILITY**
+Requires performance-conscious animation implementation with reduced motion support.
+
+**Animation Standards:**
+```tsx
+// utils/animations.ts
+export const animations = {
+  // Easing curves
+  easing: {
+    default: 'cubic-bezier(0.4, 0, 0.2, 1)',
+    smooth: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+    bounce: 'cubic-bezier(0.68, -0.55, 0.265, 1.55)',
+  },
+  
+  // Duration scales
+  duration: {
+    fast: 150,
+    normal: 300,
+    slow: 500,
+  },
+  
+  // Common transitions
+  fadeIn: {
+    initial: { opacity: 0 },
+    animate: { opacity: 1 },
+    transition: { duration: 0.3 },
+  },
+  
+  slideUp: {
+    initial: { opacity: 0, y: 20 },
+    animate: { opacity: 1, y: 0 },
+    transition: { duration: 0.4, ease: 'easeOut' },
+  },
+  
+  scale: {
+    initial: { scale: 0.95, opacity: 0 },
+    animate: { scale: 1, opacity: 1 },
+    transition: { duration: 0.2 },
+  },
+} as const;
+
+// Reduced motion hook
+export function usePrefersReducedMotion() {
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+  
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    setPrefersReducedMotion(mediaQuery.matches);
+    
+    const handleChange = () => setPrefersReducedMotion(mediaQuery.matches);
+    mediaQuery.addEventListener('change', handleChange);
+    return () => mediaQuery.removeEventListener('change', handleChange);
+  }, []);
+  
+  return prefersReducedMotion;
+}
+```
+
+**Performance Optimizations:**
+- Use `transform` and `opacity` for animations (GPU accelerated)
+- Implement `will-change` property strategically
+- Add `prefers-reduced-motion` support throughout
+- Use `AnimatePresence` for component transitions
+
+**Estimated Effort:** 3-4 days
+**Performance Impact:** Minimal when implemented correctly
+
+### 7. State Management Architecture
+
+#### Technical Assessment: **MEDIUM-HIGH COMPLEXITY**
+Requires implementing context providers and custom hooks for complex state scenarios.
+
+**Recommended Architecture:**
+```tsx
+// contexts/AppContext.tsx
+interface AppState {
+  user: User | null;
+  preferences: UserPreferences;
+  ui: {
+    mobileMenuOpen: boolean;
+    currentSection: string;
+    contactFormStep: number;
+  };
+}
+
+interface AppContextValue {
+  state: AppState;
+  actions: {
+    setUser: (user: User | null) => void;
+    updatePreferences: (preferences: Partial<UserPreferences>) => void;
+    setMobileMenuOpen: (open: boolean) => void;
+    setCurrentSection: (section: string) => void;
+    setContactFormStep: (step: number) => void;
+  };
+}
+
+export const AppContext = createContext<AppContextValue | null>(null);
+
+export function AppProvider({ children }: { children: React.ReactNode }) {
+  const [state, dispatch] = useReducer(appReducer, initialState);
+  
+  const actions = useMemo(() => ({
+    setUser: (user: User | null) => dispatch({ type: 'SET_USER', payload: user }),
+    updatePreferences: (preferences: Partial<UserPreferences>) =>
+      dispatch({ type: 'UPDATE_PREFERENCES', payload: preferences }),
+    setMobileMenuOpen: (open: boolean) =>
+      dispatch({ type: 'SET_MOBILE_MENU_OPEN', payload: open }),
+    setCurrentSection: (section: string) =>
+      dispatch({ type: 'SET_CURRENT_SECTION', payload: section }),
+    setContactFormStep: (step: number) =>
+      dispatch({ type: 'SET_CONTACT_FORM_STEP', payload: step }),
+  }), []);
+
+  return (
+    <AppContext.Provider value={{ state, actions }}>
+      {children}
+    </AppContext.Provider>
+  );
+}
+
+// Custom hooks
+export function useAppState() {
+  const context = useContext(AppContext);
+  if (!context) {
+    throw new Error('useAppState must be used within an AppProvider');
+  }
+  return context;
+}
+
+export function useCurrentSection() {
+  const { state, actions } = useAppState();
+  return {
+    currentSection: state.ui.currentSection,
+    setCurrentSection: actions.setCurrentSection,
+  };
+}
+```
+
+**Performance Considerations:**
+- Split contexts by concern to prevent unnecessary re-renders
+- Use `useMemo` and `useCallback` strategically
+- Implement selector pattern for complex state
+
+**Estimated Effort:** 4-5 days
+**Performance Impact:** Minimal with proper optimization
+
+### 8. Third-Party Library Recommendations
+
+#### Form Handling
+- **React Hook Form** (13KB): Best performance, great DX
+- **Zod** (12KB): Type-safe validation schemas
+- **Alternative**: Formik + Yup (larger bundle, more features)
+
+#### UI Components
+- **Headless UI** (15KB): Accessible components, pairs well with Tailwind
+- **Radix UI** (varies): More comprehensive, larger bundle
+- **Alternative**: Build custom components (more control, more work)
+
+#### Image Optimization
+- **Next/Image**: Built-in optimization (already available)
+- **React Image Gallery** (25KB): If advanced gallery features needed
+- **Swiper** (25KB): For touch gestures and accessibility
+
+#### Animation
+- **Framer Motion** (32KB): Already in use, comprehensive
+- **React Spring** (28KB): Physics-based animations
+- **React Transition Group** (8KB): Lightweight alternative
+
+### 9. Testing Strategy
+
+#### Component Testing Approach
+```tsx
+// __tests__/ContactForm.test.tsx
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { axe, toHaveNoViolations } from 'jest-axe';
+import ContactForm from '../ContactForm';
+
+expect.extend(toHaveNoViolations);
+
+describe('ContactForm', () => {
+  it('should be accessible', async () => {
+    const { container } = render(<ContactForm />);
+    const results = await axe(container);
+    expect(results).toHaveNoViolations();
+  });
+
+  it('should validate required fields', async () => {
+    const user = userEvent.setup();
+    render(<ContactForm />);
+    
+    const submitButton = screen.getByRole('button', { name: /submit/i });
+    await user.click(submitButton);
+    
+    expect(screen.getByText(/name is required/i)).toBeInTheDocument();
+    expect(screen.getByText(/email is required/i)).toBeInTheDocument();
+  });
+
+  it('should handle form submission', async () => {
+    const mockSubmit = jest.fn();
+    const user = userEvent.setup();
+    
+    render(<ContactForm onSubmit={mockSubmit} />);
+    
+    await user.type(screen.getByLabelText(/name/i), 'John Doe');
+    await user.type(screen.getByLabelText(/email/i), 'john@example.com');
+    await user.click(screen.getByRole('button', { name: /submit/i }));
+    
+    await waitFor(() => {
+      expect(mockSubmit).toHaveBeenCalledWith({
+        name: 'John Doe',
+        email: 'john@example.com',
+      });
+    });
+  });
+});
+```
+
+#### Testing Categories
+1. **Unit Tests**: Individual component functionality
+2. **Integration Tests**: Component interactions and form flows
+3. **Accessibility Tests**: Automated a11y testing with jest-axe
+4. **Visual Regression Tests**: Snapshot testing for UI consistency
+5. **E2E Tests**: Complete user journeys with Playwright/Cypress
+
+**Testing Libraries:**
+- **Jest** + **Testing Library**: Unit and integration tests
+- **jest-axe**: Automated accessibility testing
+- **Playwright**: E2E testing with better performance than Cypress
+- **Storybook**: Component development and manual testing
+
+### 10. Performance Optimization Strategy
+
+#### Bundle Analysis and Optimization
+```bash
+# Bundle analyzer setup
+npm install --save-dev @next/bundle-analyzer
+
+# next.config.js
+const withBundleAnalyzer = require('@next/bundle-analyzer')({
+  enabled: process.env.ANALYZE === 'true',
+});
+
+module.exports = withBundleAnalyzer({
+  // ... existing config
+});
+```
+
+#### Image Optimization Strategy
+```tsx
+// components/OptimizedImage.tsx
+interface OptimizedImageProps {
+  src: string;
+  alt: string;
+  width: number;
+  height: number;
+  priority?: boolean;
+  className?: string;
+}
+
+export default function OptimizedImage({
+  src,
+  alt,
+  width,
+  height,
+  priority = false,
+  className,
+}: OptimizedImageProps) {
+  return (
+    <Image
+      src={src}
+      alt={alt}
+      width={width}
+      height={height}
+      priority={priority}
+      placeholder="blur"
+      blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyepckdzjvqfVWjUoirAjAaAAAAAAAAAAAAAB7/2Q=="
+      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+      quality={85}
+      className={cn("transition-opacity duration-300", className)}
+      onLoad={(e) => {
+        e.currentTarget.classList.remove('opacity-0');
+      }}
+    />
+  );
+}
+```
+
+#### Code Splitting Strategy
+```tsx
+// Lazy load heavy components
+const GalleryLightbox = lazy(() => import('./GalleryLightbox'));
+const ContactForm = lazy(() => import('./ContactForm'));
+const PackagesSection = lazy(() => import('./PackagesSection'));
+
+// Component with suspense
+function Gallery() {
+  return (
+    <Suspense fallback={<GallerySkeleton />}>
+      <GalleryLightbox />
+    </Suspense>
+  );
+}
+```
+
+### 11. Progressive Enhancement Approach
+
+#### Core Functionality Without JavaScript
+```tsx
+// server-side rendered contact form
+export default function ContactFormNoJS() {
+  return (
+    <form action="/api/contact" method="POST" className="space-y-4">
+      <noscript>
+        <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-6">
+          <p className="text-yellow-800">
+            For the best experience, please enable JavaScript. 
+            This form will still work, but some features may be limited.
+          </p>
+        </div>
+      </noscript>
+      
+      {/* Form fields work without JavaScript */}
+      <div>
+        <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+          Name *
+        </label>
+        <input
+          type="text"
+          id="name"
+          name="name"
+          required
+          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
+        />
+      </div>
+      
+      <button type="submit" className="btn-primary">
+        Send Message
+      </button>
+    </form>
+  );
+}
+```
+
+### 12. Implementation Timeline and Effort Estimates
+
+#### Phase 1: Foundation (Weeks 1-2)
+- **Accessibility Implementation**: 5 days
+- **Design System Setup**: 7 days
+- **Contact Form Enhancement**: 7 days
+- **Total**: 19 days
+
+#### Phase 2: User Experience (Weeks 3-4)
+- **Mobile Navigation**: 4 days
+- **Gallery Enhancement**: 7 days
+- **Animation Implementation**: 4 days
+- **Total**: 15 days
+
+#### Phase 3: Optimization (Week 5)
+- **Performance Optimization**: 3 days
+- **Testing Implementation**: 2 days
+- **Total**: 5 days
+
+### 13. Technical Challenges and Mitigation Strategies
+
+#### Challenge 1: Large Bundle Size
+**Mitigation**: 
+- Implement aggressive code splitting
+- Use dynamic imports for heavy components
+- Analyze bundle with webpack-bundle-analyzer
+
+#### Challenge 2: Animation Performance
+**Mitigation**:
+- Use CSS transforms instead of layout properties
+- Implement intersection observer for animations
+- Add `prefers-reduced-motion` support
+
+#### Challenge 3: Accessibility Compliance
+**Mitigation**:
+- Implement automated testing with jest-axe
+- Regular manual testing with screen readers
+- Use semantic HTML as foundation
+
+#### Challenge 4: Form State Management
+**Mitigation**:
+- Use React Hook Form for performance
+- Implement proper error boundaries
+- Add comprehensive validation with Zod
+
+### 14. Success Metrics and Monitoring
+
+#### Technical Metrics
+- **Bundle Size**: < 500KB initial load
+- **Performance**: Core Web Vitals all green
+- **Accessibility**: 100% automated test pass rate
+- **Test Coverage**: > 80% component coverage
+
+#### User Experience Metrics
+- **Form Completion Rate**: Target 85%+
+- **Mobile Bounce Rate**: Target < 40%
+- **Page Load Time**: < 3 seconds on 3G
+- **Accessibility Score**: WAVE audit 0 errors
+
+### Implementation Priority Matrix
+
+| Feature | Impact | Effort | Priority |
+|---------|--------|--------|----------|
+| Accessibility | High | Medium | HIGH |
+| Contact Form | High | Medium | HIGH |
+| Mobile Navigation | High | Low | HIGH |
+| Gallery Enhancement | Medium | High | MEDIUM |
+| Design System | Medium | High | MEDIUM |
+| Performance Optimization | Medium | Medium | MEDIUM |
+| Animation Implementation | Low | Medium | LOW |
+
+This implementation review provides a comprehensive technical roadmap for executing the UX improvements while maintaining high code quality and performance standards. The modular approach ensures features can be implemented incrementally without disrupting existing functionality.
+
+### 15. Parallax Effect Implementation for Enhanced Visual Storytelling
+
+#### Overview
+Based on customer preference, implementing parallax scrolling effects can significantly enhance the visual storytelling and create a more immersive, premium experience for the Riberita wedding venue website.
+
+#### Recommended Parallax Implementation Areas
+
+**1. Hero Section - Multi-layer Parallax**
+```typescript
+// Hero image layers with different scroll speeds
+<div className="relative h-screen overflow-hidden">
+  <div 
+    className="absolute inset-0 transform"
+    style={{ transform: `translateY(${scrollY * 0.5}px)` }}
+  >
+    {/* Background venue image */}
+  </div>
+  <div 
+    className="absolute inset-0 transform"
+    style={{ transform: `translateY(${scrollY * 0.3}px)` }}
+  >
+    {/* Mid-layer decorative elements */}
+  </div>
+  <div className="relative z-10">
+    {/* Hero text content - normal scroll */}
+  </div>
+</div>
+```
+
+**2. Section Transitions - Reveal Parallax**
+- **About Section**: Text reveals from left, images from right at different speeds
+- **Packages Section**: Cards slide up with staggered delays
+- **Gallery Section**: Images scale and fade in on scroll
+- **Testimonials**: Quote cards with subtle floating effect
+
+**3. Text and Image Parallax Patterns**
+
+```typescript
+// Intersection Observer for performance
+const ParallaxSection = ({ children, speed = 0.5 }) => {
+  const [offset, setOffset] = useState(0);
+  const ref = useRef<HTMLDivElement>(null);
+  
+  useEffect(() => {
+    const handleScroll = () => {
+      if (ref.current) {
+        const rect = ref.current.getBoundingClientRect();
+        const speed = 0.5;
+        setOffset(rect.top * speed);
+      }
+    };
+    
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+  
+  return (
+    <div ref={ref} style={{ transform: `translateY(${offset}px)` }}>
+      {children}
+    </div>
+  );
+};
+```
+
+**4. Recommended Parallax Library Integration**
+
+**Option 1: React Parallax (Lightweight)**
+```bash
+npm install react-parallax
+```
+- Bundle size: ~15KB
+- Good for simple parallax effects
+- Built-in performance optimization
+
+**Option 2: Framer Motion (Already in use)**
+```typescript
+// Leverage existing Framer Motion for parallax
+import { motion, useScroll, useTransform } from 'framer-motion';
+
+const ParallaxImage = ({ src, alt }) => {
+  const { scrollYProgress } = useScroll();
+  const y = useTransform(scrollYProgress, [0, 1], ['0%', '30%']);
+  
+  return (
+    <motion.img
+      src={src}
+      alt={alt}
+      style={{ y }}
+      className="w-full h-full object-cover"
+    />
+  );
+};
+```
+
+**5. Performance Considerations for Parallax**
+
+```typescript
+// Use CSS will-change for smooth animations
+.parallax-element {
+  will-change: transform;
+  transform: translateZ(0); /* Force GPU acceleration */
+}
+
+// Debounced scroll handler
+const debounce = (func: Function, wait: number) => {
+  let timeout: NodeJS.Timeout;
+  return (...args: any[]) => {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => func(...args), wait);
+  };
+};
+
+// Respect reduced motion preferences
+@media (prefers-reduced-motion: reduce) {
+  .parallax-element {
+    transform: none !important;
+  }
+}
+```
+
+**6. Specific Parallax Effects by Section**
+
+**Hero Section**
+- Background image: 50% scroll speed
+- Overlay text: 80% scroll speed
+- Call-to-action buttons: Normal speed with fade-in
+
+**About Section**
+- Left text block: Slide in from -50px
+- Right image: Scale from 0.8 to 1.0
+- Feature cards: Staggered entrance with 0.1s delays
+
+**Gallery Section**
+- Images: Alternating left/right parallax offset
+- Lightbox trigger: Subtle scale on hover
+- Category filters: Sticky with blur background
+
+**Testimonials Section**
+- Quote marks: Floating effect with slight rotation
+- Review cards: Gentle vertical parallax
+- Background pattern: Slow diagonal movement
+
+**7. Mobile Parallax Strategy**
+
+```typescript
+// Detect mobile and reduce parallax intensity
+const isMobile = window.innerWidth < 768;
+const parallaxSpeed = isMobile ? 0.2 : 0.5;
+
+// Disable complex parallax on low-end devices
+const supportsParallax = 
+  'IntersectionObserver' in window &&
+  !navigator.userAgent.match(/iPhone|iPad|Android/i);
+```
+
+**8. Implementation Timeline for Parallax**
+
+**Week 1**: Foundation
+- Set up Intersection Observer infrastructure
+- Implement basic scroll tracking hooks
+- Add GPU-accelerated CSS classes
+
+**Week 2**: Core Effects
+- Hero section multi-layer parallax
+- Section reveal animations
+- Text/image offset effects
+
+**Week 3**: Polish & Testing
+- Performance optimization
+- Mobile fallbacks
+- Accessibility testing
+
+**9. Success Metrics for Parallax Implementation**
+
+- **Performance**: Maintain 60fps scrolling
+- **Engagement**: 15% increase in scroll depth
+- **Time on Page**: 20% increase in average session duration
+- **Mobile Performance**: No degradation in Core Web Vitals
+
+---
+
+*This audit was conducted on January 31, 2025, and should be reviewed quarterly to ensure continued UX excellence.*
