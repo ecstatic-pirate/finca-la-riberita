@@ -112,6 +112,7 @@ export default function About() {
               src="https://images.unsplash.com/photo-1519741497674-611481863552?w=800"
               alt="Finca La Riberita interior"
               fill
+              sizes="(max-width: 768px) 100vw, 50vw"
               className="object-cover"
             />
           </div>

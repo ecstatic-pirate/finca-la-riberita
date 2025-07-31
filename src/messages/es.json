@@ -28,6 +28,10 @@
       "service": {
         "title": "Servicio",
         "description": "Atención personalizada para cada evento"
+      },
+      "quality": {
+        "title": "Calidad",
+        "description": "Excelencia en cada detalle de tu celebración"
       }
     }
   },

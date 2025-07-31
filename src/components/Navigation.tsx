@@ -40,7 +40,6 @@ export default function Navigation() {
     { key: 'home', href: '#home' },
     { key: 'about', href: '#about' },
     { key: 'gallery', href: '#gallery' },
-    { key: 'packages', href: '#packages' },
     { key: 'testimonials', href: '#testimonials' },
     { key: 'contact', href: '#contact' }
   ];

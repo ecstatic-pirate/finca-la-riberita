@@ -28,6 +28,10 @@
       "service": {
         "title": "Service",
         "description": "Personalized attention for each event"
+      },
+      "quality": {
+        "title": "Quality",
+        "description": "Excellence in every detail of your celebration"
       }
     }
   },
