@@ -2,6 +2,9 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
+import { useParallax } from '@/hooks/useParallax';
+import { useScrollReveal } from '@/hooks/useScrollReveal';
+import { useTranslations } from 'next-intl';
 
 const testimonials = [
   {
@@ -26,19 +29,48 @@ const testimonials = [
 
 export default function Testimonials() {
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
+  const t = useTranslations('testimonials');
+  
+  // Parallax effects for header and subtext
+  const { parallaxOffset: headerParallax } = useParallax({ speed: 0.3 });
+  const { parallaxOffset: subtextParallax } = useParallax({ speed: 0.4 });
+  
+  // Scroll reveal effects
+  const { isVisible: headerVisible, elementRef: headerRef } = useScrollReveal({ threshold: 0.2 });
+  const { isVisible: subtextVisible, elementRef: subtextRef } = useScrollReveal({ threshold: 0.2, delay: 200 });
+  const { isVisible: cardVisible, elementRef: cardRef } = useScrollReveal({ threshold: 0.1, delay: 400 });
 
   return (
     <section id="testimonials" className="py-20 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <h2 className="text-4xl font-serif text-gray-900 mb-4">Love Stories</h2>
-          <p className="text-lg text-gray-600">
-            Hear from couples who celebrated their special day at Riberita
+          <h2 
+            ref={headerRef}
+            className={`text-4xl font-serif text-gray-900 mb-4 transition-all duration-700 transform ${
+              headerVisible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-8'
+            }`}
+            style={{ transform: `translateY(${headerVisible ? headerParallax : -32}px)` }}
+          >
+            {t('title')}
+          </h2>
+          <p 
+            ref={subtextRef}
+            className={`text-lg text-gray-600 transition-all duration-700 transform ${
+              subtextVisible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-8'
+            }`}
+            style={{ transform: `translateY(${subtextVisible ? subtextParallax : -32}px)` }}
+          >
+            {t('subtitle')}
           </p>
         </div>
 
         <div className="max-w-4xl mx-auto">
-          <div className="bg-gray-50 rounded-lg p-8 md:p-12 shadow-lg">
+          <div 
+            ref={cardRef}
+            className={`bg-gray-50 rounded-lg p-8 md:p-12 shadow-lg transition-all duration-1000 transform ${
+              cardVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
+            }`}
+          >
             <div className="flex items-center justify-center mb-8">
               <div className="relative w-24 h-24 rounded-full overflow-hidden">
                 <Image

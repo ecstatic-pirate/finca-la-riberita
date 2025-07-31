@@ -1,23 +1,24 @@
 'use client';
 
 import { useLocale } from 'next-intl';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
+import Link from 'next/link';
 
 export default function LanguageSwitcher() {
   const locale = useLocale();
-  const router = useRouter();
   const pathname = usePathname();
 
-  const switchLanguage = (newLocale: string) => {
-    // Remove the current locale from the pathname
-    const newPathname = pathname.replace(`/${locale}`, `/${newLocale}`);
-    router.push(newPathname);
+  const getLocalizedPath = (newLocale: string) => {
+    // Get the path without the current locale
+    const segments = pathname.split('/');
+    segments[1] = newLocale; // Replace the locale segment
+    return segments.join('/');
   };
 
   return (
     <div className="flex gap-2">
-      <button
-        onClick={() => switchLanguage('es')}
+      <Link
+        href={getLocalizedPath('es')}
         className={`px-3 py-1 rounded-md text-sm font-medium transition-colors ${
           locale === 'es'
             ? 'bg-primary-600 text-white'
@@ -25,9 +26,9 @@ export default function LanguageSwitcher() {
         }`}
       >
         ES
-      </button>
-      <button
-        onClick={() => switchLanguage('en')}
+      </Link>
+      <Link
+        href={getLocalizedPath('en')}
         className={`px-3 py-1 rounded-md text-sm font-medium transition-colors ${
           locale === 'en'
             ? 'bg-primary-600 text-white'
@@ -35,7 +36,7 @@ export default function LanguageSwitcher() {
         }`}
       >
         EN
-      </button>
+      </Link>
     </div>
   );
 }

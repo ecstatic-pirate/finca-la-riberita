@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 import { useParallax } from '@/hooks/useParallax';
 
 const heroContent = [
@@ -39,15 +39,16 @@ const storyMoments = [
 export default function Hero() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [activeStoryMoment, setActiveStoryMoment] = useState(0);
-  const [timeOfDay, setTimeOfDay] = useState('');
+  const [timeOfDay, setTimeOfDay] = useState('Welcome');
   const t = useTranslations('hero');
+  const locale = useLocale();
   
   // Parallax effects for different layers
   const { parallaxOffset: bgParallax, elementRef: bgRef } = useParallax({ speed: 0.5 });
   const { parallaxOffset: contentParallax } = useParallax({ speed: 0.2 });
 
   useEffect(() => {
-    // Set greeting based on time of day
+    // Set greeting based on time of day - only on client side
     const hour = new Date().getHours();
     if (hour < 12) setTimeOfDay('Good Morning');
     else if (hour < 17) setTimeOfDay('Good Afternoon');
@@ -108,7 +109,7 @@ export default function Hero() {
           {/* Time-based greeting */}
           <div className="mb-4 opacity-80">
             <span className="text-white/80 text-lg font-light tracking-wide">
-              {timeOfDay}
+              {timeOfDay} (Locale: {locale})
             </span>
           </div>
 
@@ -140,7 +141,7 @@ export default function Hero() {
               href="#gallery"
               className="group inline-flex items-center justify-center px-8 py-4 border-2 border-white text-white font-semibold rounded-full transition-all duration-300 hover:bg-white hover:text-gray-900 hover:scale-105"
             >
-              Explore Our Venue
+              {t('explore')}
               <svg className="w-5 h-5 ml-2 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
               </svg>
@@ -192,7 +193,7 @@ export default function Hero() {
       {/* Floating scroll indicator */}
       <div className="absolute bottom-20 left-1/2 transform -translate-x-1/2 animate-bounce">
         <div className="flex flex-col items-center text-white/70">
-          <span className="text-sm mb-2 font-light">Discover More</span>
+          <span className="text-sm mb-2 font-light">{t('discoverMore')}</span>
           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
           </svg>
@@ -201,15 +202,22 @@ export default function Hero() {
 
       {/* Ambient particles effect (CSS-only) */}
       <div className="absolute inset-0 pointer-events-none">
-        {[...Array(6)].map((_, i) => (
+        {[
+          { left: '10%', top: '20%', delay: '0s', duration: '4s' },
+          { left: '80%', top: '10%', delay: '0.5s', duration: '4.5s' },
+          { left: '25%', top: '80%', delay: '1s', duration: '3.5s' },
+          { left: '70%', top: '60%', delay: '1.5s', duration: '5s' },
+          { left: '90%', top: '40%', delay: '2s', duration: '3s' },
+          { left: '15%', top: '50%', delay: '2.5s', duration: '4s' }
+        ].map((particle, i) => (
           <div
             key={i}
             className="absolute w-2 h-2 bg-white/10 rounded-full animate-pulse"
             style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-              animationDelay: `${Math.random() * 3}s`,
-              animationDuration: `${3 + Math.random() * 2}s`
+              left: particle.left,
+              top: particle.top,
+              animationDelay: particle.delay,
+              animationDuration: particle.duration
             }}
           />
         ))}

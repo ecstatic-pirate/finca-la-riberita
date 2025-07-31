@@ -10,12 +10,15 @@
   "hero": {
     "title": "Finca La Riberita",
     "subtitle": "El lugar perfecto para tus eventos y celebraciones",
-    "cta": "Conoce más"
+    "cta": "Conoce más",
+    "explore": "Explora nuestro espacio",
+    "discoverMore": "Descubre más"
   },
   "about": {
     "title": "Sobre Nosotros",
     "subtitle": "Un lugar mágico para momentos inolvidables",
     "description": "Finca La Riberita es un espacio único para la celebración de eventos especiales. Ubicada en un entorno natural privilegiado, nuestra finca ofrece instalaciones modernas y servicios de primera calidad para hacer de tu evento una experiencia inolvidable.",
+    "scheduleTour": "Agenda una visita",
     "features": {
       "experience": {
         "title": "Experiencia",
@@ -37,7 +40,13 @@
   },
   "gallery": {
     "title": "Galería",
-    "subtitle": "Descubre nuestros espacios"
+    "subtitle": "Momentos mágicos en La Riberita",
+    "categories": {
+      "all": "Todos",
+      "ceremony": "Ceremonia",
+      "reception": "Recepción",
+      "details": "Detalles"
+    }
   },
   "packages": {
     "title": "Nuestros Servicios",
@@ -87,7 +96,14 @@
       "phone": "Teléfono",
       "eventType": "Tipo de evento",
       "message": "Mensaje",
-      "submit": "Enviar mensaje"
+      "submit": "Enviar mensaje",
+      "disclaimer": "* Este formulario abrirá tu cliente de correo. Para un formulario integrado, considera usar Google Forms.",
+      "eventTypes": {
+        "select": "Seleccionar tipo",
+        "wedding": "Boda",
+        "corporate": "Evento Corporativo",
+        "private": "Celebración Privada"
+      }
     },
     "info": {
       "address": "Dirección",

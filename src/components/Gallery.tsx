@@ -2,6 +2,9 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
+import { useParallax } from '@/hooks/useParallax';
+import { useScrollReveal } from '@/hooks/useScrollReveal';
+import { useTranslations } from 'next-intl';
 
 const galleryImages = [
   {
@@ -39,6 +42,15 @@ const galleryImages = [
 export default function Gallery() {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [lightboxImage, setLightboxImage] = useState<string | null>(null);
+  const t = useTranslations('gallery');
+  
+  // Parallax effects for header and subtext
+  const { parallaxOffset: headerParallax } = useParallax({ speed: 0.3 });
+  const { parallaxOffset: subtextParallax } = useParallax({ speed: 0.4 });
+  
+  // Scroll reveal effects
+  const { isVisible: headerVisible, elementRef: headerRef } = useScrollReveal({ threshold: 0.2 });
+  const { isVisible: subtextVisible, elementRef: subtextRef } = useScrollReveal({ threshold: 0.2, delay: 200 });
 
   const categories = ['all', 'ceremony', 'reception', 'details'];
 
@@ -50,9 +62,23 @@ export default function Gallery() {
     <section id="gallery" className="py-20 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
-          <h2 className="text-4xl font-serif text-gray-900 mb-4">Gallery</h2>
-          <p className="text-lg text-gray-600">
-            Glimpses of magical moments at Riberita
+          <h2 
+            ref={headerRef}
+            className={`text-4xl font-serif text-gray-900 mb-4 transition-all duration-700 transform ${
+              headerVisible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-8'
+            }`}
+            style={{ transform: `translateY(${headerVisible ? headerParallax : -32}px)` }}
+          >
+            {t('title')}
+          </h2>
+          <p 
+            ref={subtextRef}
+            className={`text-lg text-gray-600 transition-all duration-700 transform ${
+              subtextVisible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-8'
+            }`}
+            style={{ transform: `translateY(${subtextVisible ? subtextParallax : -32}px)` }}
+          >
+            {t('subtitle')}
           </p>
         </div>
 
@@ -67,7 +93,7 @@ export default function Gallery() {
                   : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
               }`}
             >
-              {category}
+              {t(`categories.${category}`)}
             </button>
           ))}
         </div>

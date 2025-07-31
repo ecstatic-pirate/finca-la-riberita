@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 import { useParallax } from '@/hooks/useParallax';
+import { useScrollReveal } from '@/hooks/useScrollReveal';
 import { useEffect, useRef, useState } from 'react';
 
 export default function About() {
@@ -13,6 +14,10 @@ export default function About() {
   // Parallax effects
   const { parallaxOffset: textParallax } = useParallax({ speed: 0.3 });
   const { parallaxOffset: imageParallax } = useParallax({ speed: 0.5 });
+  
+  // Scroll reveal effects for header and subtext
+  const { isVisible: headerVisible, elementRef: headerRef } = useScrollReveal({ threshold: 0.2 });
+  const { isVisible: subtextVisible, elementRef: subtextRef } = useScrollReveal({ threshold: 0.2, delay: 200 });
   
   // Intersection observer for reveal animations
   useEffect(() => {
@@ -76,8 +81,20 @@ export default function About() {
     <section id="about" className="py-20 bg-gray-50 overflow-hidden" ref={sectionRef}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <h2 className="text-4xl font-serif text-gray-900 mb-4">{t('title')}</h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+          <h2 
+            ref={headerRef}
+            className={`text-4xl font-serif text-gray-900 mb-4 transition-all duration-700 transform ${
+              headerVisible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-8'
+            }`}
+          >
+            {t('title')}
+          </h2>
+          <p 
+            ref={subtextRef}
+            className={`text-lg text-gray-600 max-w-2xl mx-auto transition-all duration-700 transform ${
+              subtextVisible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-8'
+            }`}
+          >
             {t('subtitle')}
           </p>
         </div>
@@ -96,7 +113,7 @@ export default function About() {
               {t('description')}
             </p>
             <a href="#contact" className="inline-flex items-center text-primary-600 hover:text-primary-700">
-              Schedule a tour
+              {t('scheduleTour')}
               <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
               </svg>

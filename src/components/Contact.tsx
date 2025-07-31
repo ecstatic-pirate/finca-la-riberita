@@ -3,9 +3,22 @@
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import GoogleMap from './GoogleMap';
+import { useParallax } from '@/hooks/useParallax';
+import { useScrollReveal } from '@/hooks/useScrollReveal';
 
 export default function Contact() {
   const t = useTranslations('contact');
+  
+  // Parallax effects for header and subtext
+  const { parallaxOffset: headerParallax } = useParallax({ speed: 0.3 });
+  const { parallaxOffset: subtextParallax } = useParallax({ speed: 0.4 });
+  
+  // Scroll reveal effects
+  const { isVisible: headerVisible, elementRef: headerRef } = useScrollReveal({ threshold: 0.2 });
+  const { isVisible: subtextVisible, elementRef: subtextRef } = useScrollReveal({ threshold: 0.2, delay: 200 });
+  const { isVisible: leftColumnVisible, elementRef: leftColumnRef } = useScrollReveal({ threshold: 0.1, delay: 400 });
+  const { isVisible: rightColumnVisible, elementRef: rightColumnRef } = useScrollReveal({ threshold: 0.1, delay: 600 });
+  
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -53,14 +66,33 @@ ${formData.message}
     <section id="contact" className="py-20 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <h2 className="text-4xl font-serif text-gray-900 mb-4">{t('title')}</h2>
-          <p className="text-lg text-gray-600">
+          <h2 
+            ref={headerRef}
+            className={`text-4xl font-serif text-gray-900 mb-4 transition-all duration-700 transform ${
+              headerVisible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-8'
+            }`}
+            style={{ transform: `translateY(${headerVisible ? headerParallax : -32}px)` }}
+          >
+            {t('title')}
+          </h2>
+          <p 
+            ref={subtextRef}
+            className={`text-lg text-gray-600 transition-all duration-700 transform ${
+              subtextVisible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-8'
+            }`}
+            style={{ transform: `translateY(${subtextVisible ? subtextParallax : -32}px)` }}
+          >
             {t('subtitle')}
           </p>
         </div>
 
         <div className="grid md:grid-cols-2 gap-12">
-          <div>
+          <div 
+            ref={leftColumnRef}
+            className={`transition-all duration-1000 transform ${
+              leftColumnVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-12'
+            }`}
+          >
             <h3 className="text-2xl font-serif text-gray-900 mb-6">{t('title')}</h3>
             
             <div className="space-y-6">
@@ -101,14 +133,19 @@ ${formData.message}
             
             <div className="mt-8">
               <h4 className="font-semibold text-gray-900 mb-4">{t('location-title')}</h4>
-              <GoogleMap address="37116 La Riberita, Salamanca, Spain" />
+              <GoogleMap />
             </div>
           </div>
 
-          <div>
+          <div 
+            ref={rightColumnRef}
+            className={`transition-all duration-1000 transform ${
+              rightColumnVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-12'
+            }`}
+          >
             <form onSubmit={handleSubmit} className="bg-white rounded-lg shadow-lg p-8">
               <p className="text-sm text-gray-500 mb-4 text-center italic">
-                * Este formulario abrirá tu cliente de correo. Para un formulario integrado, considera usar Google Forms.
+                {t('form.disclaimer')}
               </p>
               <div className="grid md:grid-cols-2 gap-6 mb-6">
                 <div>
@@ -166,10 +203,10 @@ ${formData.message}
                     onChange={handleChange}
                     className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-primary-500 focus:border-primary-500"
                   >
-                    <option value="">Seleccionar tipo</option>
-                    <option value="wedding">Boda</option>
-                    <option value="corporate">Evento Corporativo</option>
-                    <option value="private">Celebración Privada</option>
+                    <option value="">{t('form.eventTypes.select')}</option>
+                    <option value="wedding">{t('form.eventTypes.wedding')}</option>
+                    <option value="corporate">{t('form.eventTypes.corporate')}</option>
+                    <option value="private">{t('form.eventTypes.private')}</option>
                   </select>
                 </div>
               </div>

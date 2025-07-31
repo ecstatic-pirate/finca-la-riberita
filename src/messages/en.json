@@ -10,12 +10,15 @@
   "hero": {
     "title": "Finca La Riberita",
     "subtitle": "The perfect place for your events and celebrations",
-    "cta": "Learn more"
+    "cta": "Learn more",
+    "explore": "Explore Our Venue",
+    "discoverMore": "Discover More"
   },
   "about": {
     "title": "About Us",
     "subtitle": "A magical place for unforgettable moments",
     "description": "Finca La Riberita is a unique space for celebrating special events. Located in a privileged natural environment, our estate offers modern facilities and top-quality services to make your event an unforgettable experience.",
+    "scheduleTour": "Schedule a tour",
     "features": {
       "experience": {
         "title": "Experience",
@@ -37,7 +40,13 @@
   },
   "gallery": {
     "title": "Gallery",
-    "subtitle": "Discover our spaces"
+    "subtitle": "Glimpses of magical moments at Riberita",
+    "categories": {
+      "all": "All",
+      "ceremony": "Ceremony",
+      "reception": "Reception",
+      "details": "Details"
+    }
   },
   "packages": {
     "title": "Our Services",
@@ -87,7 +96,14 @@
       "phone": "Phone",
       "eventType": "Event type",
       "message": "Message",
-      "submit": "Send message"
+      "submit": "Send message",
+      "disclaimer": "* This form will open your email client. For an integrated form, consider using Google Forms.",
+      "eventTypes": {
+        "select": "Select type",
+        "wedding": "Wedding",
+        "corporate": "Corporate Event",
+        "private": "Private Celebration"
+      }
     },
     "info": {
       "address": "Address",
