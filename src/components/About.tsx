@@ -1,8 +1,37 @@
+'use client';
+
 import Image from 'next/image';
 import { useTranslations } from 'next-intl';
+import { useParallax } from '@/hooks/useParallax';
+import { useEffect, useRef, useState } from 'react';
 
 export default function About() {
   const t = useTranslations('about');
+  const [isVisible, setIsVisible] = useState(false);
+  const sectionRef = useRef<HTMLDivElement>(null);
+  
+  // Parallax effects
+  const { parallaxOffset: textParallax } = useParallax({ speed: 0.3 });
+  const { parallaxOffset: imageParallax } = useParallax({ speed: 0.5 });
+  
+  // Intersection observer for reveal animations
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.unobserve(entry.target);
+        }
+      },
+      { threshold: 0.1 }
+    );
+    
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+    
+    return () => observer.disconnect();
+  }, []);
   const features = [
     {
       title: t('features.experience.title'),
@@ -44,7 +73,7 @@ export default function About() {
   ];
 
   return (
-    <section id="about" className="py-20 bg-gray-50">
+    <section id="about" className="py-20 bg-gray-50 overflow-hidden" ref={sectionRef}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <h2 className="text-4xl font-serif text-gray-900 mb-4">{t('title')}</h2>
@@ -54,7 +83,12 @@ export default function About() {
         </div>
 
         <div className="grid md:grid-cols-2 gap-12 items-center mb-16">
-          <div>
+          <div 
+            className={`transition-all duration-1000 ${
+              isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-10'
+            }`}
+            style={{ transform: `translateY(${textParallax}px)` }}
+          >
             <h3 className="text-3xl font-serif text-gray-900 mb-6">
               {t('subtitle')}
             </h3>
@@ -68,7 +102,12 @@ export default function About() {
               </svg>
             </a>
           </div>
-          <div className="relative h-96 rounded-lg overflow-hidden shadow-xl">
+          <div 
+            className={`relative h-96 rounded-lg overflow-hidden shadow-xl transition-all duration-1000 delay-300 ${
+              isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
+            }`}
+            style={{ transform: `translateY(${imageParallax}px) scale(${isVisible ? 1 : 0.95})` }}
+          >
             <Image
               src="https://images.unsplash.com/photo-1519741497674-611481863552?w=800"
               alt="Finca La Riberita interior"
@@ -80,7 +119,16 @@ export default function About() {
 
         <div className="grid md:grid-cols-3 gap-8">
           {features.map((feature, index) => (
-            <div key={index} className="text-center">
+            <div 
+              key={index} 
+              className={`text-center transition-all duration-700 ${
+                isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+              }`}
+              style={{ 
+                transitionDelay: `${index * 100}ms`,
+                transform: `translateY(${isVisible ? 0 : 10}px)`
+              }}
+            >
               <div className="inline-flex items-center justify-center w-16 h-16 bg-primary-100 text-primary-600 rounded-full mb-4">
                 {feature.icon}
               </div>

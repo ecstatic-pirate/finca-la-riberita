@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { useTranslations } from 'next-intl';
+import { useParallax } from '@/hooks/useParallax';
 
 const heroContent = [
   {
@@ -40,6 +41,10 @@ export default function Hero() {
   const [activeStoryMoment, setActiveStoryMoment] = useState(0);
   const [timeOfDay, setTimeOfDay] = useState('');
   const t = useTranslations('hero');
+  
+  // Parallax effects for different layers
+  const { parallaxOffset: bgParallax, elementRef: bgRef } = useParallax({ speed: 0.5 });
+  const { parallaxOffset: contentParallax } = useParallax({ speed: 0.2 });
 
   useEffect(() => {
     // Set greeting based on time of day
@@ -66,30 +71,39 @@ export default function Hero() {
 
   return (
     <section id="home" className="relative min-h-screen overflow-hidden">
-      {/* Cinematic Background */}
-      {heroContent.map((slide, index) => (
-        <div
-          key={index}
-          className={`absolute inset-0 transition-all duration-2000 ease-in-out ${
-            index === currentSlide ? 'opacity-100 scale-100' : 'opacity-0 scale-105'
-          }`}
-        >
-          <Image
-            src={slide.src}
-            alt={slide.alt}
-            fill
-            className="object-cover"
-            priority={index === 0}
-          />
-          {/* Enhanced gradient overlay for better text readability */}
-          <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/20 to-black/60" />
-          {/* Subtle texture overlay */}
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent" />
-        </div>
-      ))}
+      {/* Cinematic Background with Parallax */}
+      <div 
+        ref={bgRef}
+        className="absolute inset-0 will-change-transform"
+        style={{ transform: `translateY(${bgParallax}px)` }}
+      >
+        {heroContent.map((slide, index) => (
+          <div
+            key={index}
+            className={`absolute inset-0 transition-all duration-2000 ease-in-out ${
+              index === currentSlide ? 'opacity-100 scale-100' : 'opacity-0 scale-105'
+            }`}
+          >
+            <Image
+              src={slide.src}
+              alt={slide.alt}
+              fill
+              className="object-cover"
+              priority={index === 0}
+            />
+            {/* Enhanced gradient overlay for better text readability */}
+            <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/20 to-black/60" />
+            {/* Subtle texture overlay */}
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent" />
+          </div>
+        ))}
+      </div>
 
-      {/* Main Hero Content */}
-      <div className="relative h-screen flex items-center justify-center text-center px-4">
+      {/* Main Hero Content with Parallax */}
+      <div 
+        className="relative h-screen flex items-center justify-center text-center px-4"
+        style={{ transform: `translateY(${contentParallax}px)` }}
+      >
         <div className="max-w-6xl">
           {/* Time-based greeting */}
           <div className="mb-4 opacity-80">

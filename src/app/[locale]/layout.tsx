@@ -13,14 +13,19 @@ export const metadata: Metadata = {
   keywords: "finca eventos, bodas, eventos corporativos, celebraciones, Madrid",
 };
 
+export function generateStaticParams() {
+  return [{ locale: 'en' }, { locale: 'es' }];
+}
+
 export default async function LocaleLayout({
   children,
-  params: { locale }
+  params
 }: Readonly<{
   children: React.ReactNode;
-  params: { locale: string };
+  params: Promise<{ locale: string }>;
 }>) {
-  const messages = await getMessages({locale});
+  const { locale } = await params;
+  const messages = await getMessages();
   
   return (
     <html lang={locale} className={`${inter.variable} ${playfair.variable}`}>
