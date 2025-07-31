@@ -7,10 +7,6 @@ import Testimonials from '@/components/Testimonials';
 import Contact from '@/components/Contact';
 import Footer from '@/components/Footer';
 
-export function generateStaticParams() {
-  return [{ locale: 'en' }, { locale: 'es' }];
-}
-
 export default function Home() {
   return (
     <main className="min-h-screen">

@@ -13,24 +13,27 @@ export const metadata: Metadata = {
   keywords: "finca eventos, bodas, eventos corporativos, celebraciones, Madrid",
 };
 
-export function generateStaticParams() {
-  return [{ locale: 'en' }, { locale: 'es' }];
-}
-
 export default async function LocaleLayout({
   children,
   params
-}: Readonly<{
+}: {
   children: React.ReactNode;
   params: Promise<{ locale: string }>;
-}>) {
+}) {
   const { locale } = await params;
-  const messages = await getMessages();
+  
+  let messages;
+  try {
+    messages = await getMessages();
+  } catch (error) {
+    console.error('Failed to load messages:', error);
+    messages = {};
+  }
   
   return (
     <html lang={locale} className={`${inter.variable} ${playfair.variable}`}>
       <body className={inter.className}>
-        <NextIntlClientProvider messages={messages}>
+        <NextIntlClientProvider locale={locale} messages={messages}>
           {children}
         </NextIntlClientProvider>
       </body>
