@@ -15,7 +15,6 @@ export default function Gallery() {
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
   const [galleryImages, setGalleryImages] = useState<MediaItem[]>([]);
   const [loading, setLoading] = useState(true);
-  const [showAll, setShowAll] = useState(false);
   const t = useTranslations('gallery');
 
   // Load gallery images dynamically
@@ -39,7 +38,7 @@ export default function Gallery() {
   }, []);
 
   // Limit to 9 images initially
-  const displayedImages = showAll ? galleryImages : galleryImages.slice(0, 9);
+  const displayedImages = galleryImages.slice(0, 9);
   const hasMoreImages = galleryImages.length > 9;
 
   const handleKeyDown = (e: KeyboardEvent) => {
@@ -145,13 +144,13 @@ export default function Gallery() {
         </div>
 
         {/* View More Button */}
-        {hasMoreImages && !showAll && (
+        {hasMoreImages && (
           <div className="text-center mt-12">
             <button
-              onClick={() => setShowAll(true)}
+              onClick={() => setLightboxIndex(9)}
               className="inline-flex items-center px-8 py-3 bg-primary-600 text-white font-medium rounded-full hover:bg-primary-700 transition-colors"
             >
-              View All Photos ({galleryImages.length})
+              View All Photos
               <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
               </svg>
@@ -159,20 +158,6 @@ export default function Gallery() {
           </div>
         )}
 
-        {/* Show Less Button */}
-        {showAll && hasMoreImages && (
-          <div className="text-center mt-12">
-            <button
-              onClick={() => setShowAll(false)}
-              className="inline-flex items-center px-8 py-3 border-2 border-primary-600 text-primary-600 font-medium rounded-full hover:bg-primary-50 transition-colors"
-            >
-              Show Less
-              <svg className="w-5 h-5 ml-2 rotate-90" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-              </svg>
-            </button>
-          </div>
-        )}
       </div>
 
       {/* Lightbox */}
