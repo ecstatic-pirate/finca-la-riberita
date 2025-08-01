@@ -57,7 +57,6 @@ export default function Footer() {
                 <li>{t('footer.servicesItems.weddings')}</li>
                 <li>{t('footer.servicesItems.corporate')}</li>
                 <li>{t('footer.servicesItems.events')}</li>
-                <li>{t('footer.servicesItems.catering')}</li>
               </ul>
             </div>
 
@@ -88,7 +87,7 @@ export default function Footer() {
 
         </div>
         <div className="mt-8 pt-8 border-t border-gray-800 text-center text-gray-400">
-          <p>&copy; 2024 Finca La Riberita. {t('footer.rights')}</p>
+          <p>&copy; {new Date().getFullYear()} Finca La Riberita. {t('footer.rights')}</p>
         </div>
       </div>
     </footer>

@@ -40,6 +40,7 @@ export default function Navigation() {
   const menuItems = [
     { key: 'home', href: '#home' },
     { key: 'about', href: '#about' },
+    { key: 'accommodation', href: '#accommodation' },
     { key: 'gallery', href: '#gallery' },
     { key: 'testimonials', href: '#testimonials' },
     { key: 'faq', href: '#faq' },
