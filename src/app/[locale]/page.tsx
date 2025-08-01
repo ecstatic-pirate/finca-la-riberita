@@ -1,8 +1,10 @@
 import Hero from '@/components/Hero';
 import Navigation from '@/components/Navigation';
 import About from '@/components/About';
+import Accommodation from '@/components/Accommodation';
 import Gallery from '@/components/Gallery';
 import Quote from '@/components/Quote';
+import Features from '@/components/Features';
 import Testimonials from '@/components/Testimonials';
 import FAQ from '@/components/FAQ';
 import Booking from '@/components/Booking';
@@ -16,8 +18,10 @@ export default function Home() {
       <Hero />
       <div id="main-content">
         <About />
+        <Accommodation />
         <Gallery />
         <Quote />
+        <Features />
         <Testimonials />
         <Booking />
         <FAQ />
