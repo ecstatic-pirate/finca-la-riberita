@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 import LanguageSwitcher from './LanguageSwitcher';
 
@@ -41,7 +42,7 @@ export default function Navigation() {
     { key: 'about', href: '#about' },
     { key: 'gallery', href: '#gallery' },
     { key: 'testimonials', href: '#testimonials' },
-    { key: 'contact', href: '#contact' }
+    { key: 'faq', href: '#faq' }
   ];
 
   return (
@@ -56,46 +57,62 @@ export default function Navigation() {
       
       <nav 
         className={`fixed w-full z-50 transition-all duration-300 ${
-          isScrolled ? 'bg-white shadow-lg' : 'bg-transparent'
+          isScrolled 
+            ? 'bg-white shadow-lg' 
+            : 'bg-transparent'
         }`}
         role="navigation"
         aria-label="Main navigation"
       >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-20">
-          <div className="flex-shrink-0">
+        <div className="flex justify-between items-center h-24 py-2">
+          <div className="flex-shrink-0 -ml-[200px]">
             <Link 
               href="/" 
-              className={`text-2xl font-serif ${
-                isScrolled ? 'text-gray-900' : 'text-white'
-              }`}
+              className="block relative w-[550px] h-[90px]"
               aria-label="Finca La Riberita - Home"
             >
-              Finca La Riberita
+              <Image
+                src={isScrolled ? "/logo-light.png" : "/logo-dark.png"}
+                alt="Finca La Riberita Logo"
+                fill
+                className="object-contain"
+                priority
+              />
             </Link>
           </div>
           
-          <div className="hidden md:flex items-center space-x-8">
-            <div className="flex items-baseline space-x-8">
+          <div className="hidden md:flex items-center space-x-4 ml-auto">
+            <div className="flex items-baseline space-x-6">
               {menuItems.map((item) => (
                 <Link
                   key={item.key}
                   href={item.href}
-                  className={`font-medium transition-colors ${
-                    isScrolled ? 'text-gray-700 hover:text-primary-600' : 'text-white hover:text-primary-200'
+                  className={`text-sm font-medium transition-colors whitespace-nowrap ${
+                    isScrolled ? 'text-gray-700 hover:text-primary-600' : 'text-white hover:text-white/80'
                   }`}
                 >
                   {t(item.key)}
                 </Link>
               ))}
+              <Link
+                href="#booking"
+                className={`text-sm font-medium px-4 py-2 rounded-full transition-all whitespace-nowrap ${
+                  isScrolled 
+                    ? 'bg-primary-600 text-white hover:bg-primary-700' 
+                    : 'bg-white text-gray-900 hover:bg-gray-100'
+                }`}
+              >
+                {t('booking')}
+              </Link>
             </div>
-            <LanguageSwitcher />
+            <LanguageSwitcher isScrolled={isScrolled} />
           </div>
 
           <div className="md:hidden">
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className={`p-2 rounded-md ${
+              className={`p-2 rounded-md transition-colors ${
                 isScrolled ? 'text-gray-700' : 'text-white'
               }`}
               aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
@@ -136,8 +153,17 @@ export default function Navigation() {
                 {t(item.key)}
               </Link>
             ))}
+            <Link
+              href="#booking"
+              className="block mx-3 my-2 px-4 py-2 bg-primary-600 text-white text-center rounded-full hover:bg-primary-700 font-medium"
+              onClick={() => setIsMobileMenuOpen(false)}
+              role="menuitem"
+              tabIndex={0}
+            >
+              {t('booking')}
+            </Link>
             <div className="px-3 py-2" role="none">
-              <LanguageSwitcher />
+              <LanguageSwitcher isScrolled={true} />
             </div>
           </div>
         </div>

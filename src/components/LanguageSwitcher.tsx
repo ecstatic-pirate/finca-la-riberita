@@ -4,7 +4,11 @@ import { useLocale } from 'next-intl';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 
-export default function LanguageSwitcher() {
+interface LanguageSwitcherProps {
+  isScrolled?: boolean;
+}
+
+export default function LanguageSwitcher({ isScrolled = false }: LanguageSwitcherProps) {
   const locale = useLocale();
   const pathname = usePathname();
 
@@ -16,24 +20,42 @@ export default function LanguageSwitcher() {
   };
 
   return (
-    <div className="flex gap-2">
+    <div className="flex items-center gap-1 text-xs">
       <Link
         href={getLocalizedPath('es')}
-        className={`px-3 py-1 rounded-md text-sm font-medium transition-colors ${
+        className={`px-2 py-1 transition-all duration-200 ${
           locale === 'es'
-            ? 'bg-primary-600 text-white'
-            : 'text-gray-700 hover:bg-gray-100'
+            ? isScrolled
+              ? 'text-primary-600 border-b border-primary-600'
+              : 'text-white border-b border-white'
+            : isScrolled
+              ? 'text-gray-500 hover:text-gray-700'
+              : 'text-white/70 hover:text-white'
         }`}
+        aria-label="Switch to Spanish"
       >
         ES
       </Link>
+      <span 
+        className={`text-xs ${
+          isScrolled ? 'text-gray-300' : 'text-white/50'
+        }`}
+        aria-hidden="true"
+      >
+        /
+      </span>
       <Link
         href={getLocalizedPath('en')}
-        className={`px-3 py-1 rounded-md text-sm font-medium transition-colors ${
+        className={`px-2 py-1 transition-all duration-200 ${
           locale === 'en'
-            ? 'bg-primary-600 text-white'
-            : 'text-gray-700 hover:bg-gray-100'
+            ? isScrolled
+              ? 'text-primary-600 border-b border-primary-600'
+              : 'text-white border-b border-white'
+            : isScrolled
+              ? 'text-gray-500 hover:text-gray-700'
+              : 'text-white/70 hover:text-white'
         }`}
+        aria-label="Switch to English"
       >
         EN
       </Link>

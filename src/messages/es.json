@@ -1,11 +1,14 @@
 {
   "navigation": {
     "home": "Inicio",
-    "about": "Sobre Nosotros",
-    "gallery": "Galería",
+    "about": "La Finca",
+    "accommodation": "Alojamiento",
+    "gallery": "Fotos",
     "packages": "Paquetes",
     "testimonials": "Testimonios",
-    "contact": "Contacto"
+    "faq": "FAQ",
+    "booking": "Reserva tu Visita",
+    "contact": "Contactar"
   },
   "hero": {
     "title": "Finca La Riberita",
@@ -15,7 +18,7 @@
     "discoverMore": "Descubre más"
   },
   "about": {
-    "title": "Sobre Nosotros",
+    "title": "La Finca",
     "subtitle": "Un lugar mágico para momentos inolvidables",
     "description": "Finca La Riberita es un espacio único para la celebración de eventos especiales. Ubicada en un entorno natural privilegiado, nuestra finca ofrece instalaciones modernas y servicios de primera calidad para hacer de tu evento una experiencia inolvidable.",
     "scheduleTour": "Agenda una visita",
@@ -39,7 +42,7 @@
     }
   },
   "gallery": {
-    "title": "Galería",
+    "title": "Fotos",
     "subtitle": "Momentos mágicos en La Riberita",
     "categories": {
       "all": "Todos",
@@ -82,9 +85,57 @@
       ]
     }
   },
+  "quote": {
+    "text": "Una celebración elegante es aquella que toca corazones, crea recuerdos y perdura en el tiempo a través de la belleza de su simplicidad",
+    "author": "Finca La Riberita"
+  },
   "testimonials": {
     "title": "Testimonios",
     "subtitle": "Lo que dicen nuestros clientes"
+  },
+  "faq": {
+    "title": "Preguntas Frecuentes",
+    "subtitle": "Encuentra respuestas a las preguntas más comunes sobre nuestro espacio",
+    "items": {
+      "pricing": {
+        "question": "¿Cuánto cuesta el alquiler de la finca?",
+        "answer": "Nuestros precios de alquiler varían según el tipo de evento, día de la semana y temporada. Los paquetes de boda comienzan desde 5.000€ para celebraciones íntimas de hasta 50 invitados. Por favor, contáctanos para obtener un presupuesto personalizado según tus necesidades específicas."
+      },
+      "included": {
+        "question": "¿Qué incluye el alquiler?",
+        "answer": "Nuestro alquiler incluye el uso exclusivo de los espacios de la finca, montaje básico de mobiliario, instalaciones de estacionamiento, apoyo en la coordinación del evento y servicios de limpieza. Servicios adicionales como catering, decoración y entretenimiento pueden organizarse a través de nuestros proveedores preferidos o los tuyos propios."
+      },
+      "accommodation": {
+        "question": "¿Hay alojamiento cercano?",
+        "answer": "Sí, hay varios hoteles y casas rurales a 10-15 minutos en coche de la finca. Tenemos acuerdos con alojamientos locales que ofrecen tarifas especiales para nuestros invitados. Podemos proporcionar una lista de lugares recomendados bajo petición."
+      },
+      "capacity": {
+        "question": "¿Cuál es la capacidad máxima?",
+        "answer": "Nuestra finca puede acomodar hasta 300 invitados para eventos tipo cóctel y hasta 250 invitados para cenas sentadas. El área de ceremonia al aire libre puede albergar hasta 200 invitados, mientras que nuestros espacios interiores son perfectos para reuniones más íntimas."
+      },
+      "catering": {
+        "question": "¿Podemos traer nuestro propio catering?",
+        "answer": "Sí, tienes la flexibilidad de elegir tu propio servicio de catering o seleccionar de nuestra lista de caterers preferidos que conocen nuestras instalaciones. Tenemos una cocina totalmente equipada disponible para uso de equipos de catering profesionales."
+      },
+      "availability": {
+        "question": "¿Con cuánta anticipación debemos reservar?",
+        "answer": "Recomendamos reservar con al menos 6-12 meses de anticipación para bodas de fin de semana, especialmente durante la temporada alta (mayo a octubre). Para eventos entre semana o fechas fuera de temporada, 3-6 meses suele ser suficiente. Contáctanos para consultar disponibilidad actual."
+      }
+    },
+    "cta": {
+      "text": "¿Tienes más preguntas?",
+      "button": "Reserva una Visita"
+    }
+  },
+  "booking": {
+    "title": "Reserva tu Visita",
+    "subtitle": "Agenda una consulta o recorrido por nuestro hermoso espacio",
+    "info": {
+      "availability": "Disponibilidad",
+      "availabilityText": "Lunes a Domingo, 10:00 AM - 6:00 PM",
+      "duration": "Duración",
+      "durationText": "Consultas de 30 minutos"
+    }
   },
   "contact": {
     "title": "Contacto",
@@ -106,15 +157,27 @@
       }
     },
     "info": {
+      "getInTouch": "Ponte en Contacto",
       "address": "Dirección",
       "addressValue": "37116 La Riberita, Salamanca",
       "phone": "Teléfono",
       "phoneValue": "+34 655 01 30 34",
       "email": "Email",
-      "emailValue": "info@fincalariberita.com"
+      "emailValue": "fincalariberita@gmail.com"
     }
   },
   "footer": {
+    "description": "Creando experiencias inolvidables en el corazón de Salamanca",
+    "quickLinks": "Enlaces Rápidos",
+    "services": "Servicios",
+    "servicesItems": {
+      "weddings": "Ceremonias de Boda",
+      "corporate": "Eventos Corporativos",
+      "events": "Celebraciones Privadas",
+      "catering": "Servicios de Catering"
+    },
+    "contact": "Información de Contacto",
+    "followUs": "Síguenos",
     "rights": "Todos los derechos reservados",
     "privacy": "Política de Privacidad",
     "terms": "Términos y Condiciones"

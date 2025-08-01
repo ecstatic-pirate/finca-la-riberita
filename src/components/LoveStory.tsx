@@ -5,26 +5,6 @@ import Image from 'next/image';
 
 const journeySteps = [
   {
-    id: 'proposal',
-    title: 'The Proposal',
-    subtitle: 'Where Forever Begins',
-    description: 'That magical moment when two hearts decide to become one. Every love story deserves a perfect beginning.',
-    image: 'https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=800',
-    icon: '💍',
-    venueConnection: 'Our romantic gardens provide the perfect backdrop for proposal photoshoots.',
-    color: 'from-rose-400 to-pink-500'
-  },
-  {
-    id: 'planning',
-    title: 'The Planning',
-    subtitle: 'Dreams Taking Shape',
-    description: 'Months of excitement, decisions, and anticipation as your vision comes to life with our dedicated team.',
-    image: 'https://images.unsplash.com/photo-1606800052052-a08af7148866?w=800',
-    icon: '💕',
-    venueConnection: 'Our wedding coordinators guide you through every detail, from venue layout to vendor selection.',
-    color: 'from-purple-400 to-indigo-500'
-  },
-  {
     id: 'celebration',
     title: 'The Celebration',
     subtitle: 'Your Perfect Day',

@@ -1,45 +1,12 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import Image from 'next/image';
 import { useTranslations, useLocale } from 'next-intl';
 import { useParallax } from '@/hooks/useParallax';
 
-const heroContent = [
-  {
-    src: 'https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=1600',
-    alt: 'Beautiful wedding venue exterior',
-    title: 'Your Forever Begins Here',
-    subtitle: 'Where Love Stories Become Legends',
-    moment: 'The First Look'
-  },
-  {
-    src: 'https://images.unsplash.com/photo-1519167758481-83f550bb49b3?w=1600',
-    alt: 'Elegant wedding reception hall',
-    title: 'Celebrate Your Journey',
-    subtitle: 'In Elegance Beyond Imagination',
-    moment: 'The Celebration'
-  },
-  {
-    src: 'https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?w=1600',
-    alt: 'Romantic outdoor wedding setup',
-    title: 'Dream Without Limits',
-    subtitle: 'Create Memories That Last Forever',
-    moment: 'The Promise'
-  }
-];
-
-const storyMoments = [
-  { label: 'The Proposal', icon: '💍', description: 'Where it all began' },
-  { label: 'The Planning', icon: '💕', description: 'Bringing dreams to life' },
-  { label: 'The Day', icon: '✨', description: 'Your perfect moment' },
-  { label: 'Forever', icon: '🥂', description: 'The story continues' }
-];
-
 export default function Hero() {
-  const [currentSlide, setCurrentSlide] = useState(0);
-  const [activeStoryMoment, setActiveStoryMoment] = useState(0);
   const [timeOfDay, setTimeOfDay] = useState('Welcome');
+  const [videoLoaded, setVideoLoaded] = useState(false);
   const t = useTranslations('hero');
   const locale = useLocale();
   
@@ -53,51 +20,48 @@ export default function Hero() {
     if (hour < 12) setTimeOfDay('Good Morning');
     else if (hour < 17) setTimeOfDay('Good Afternoon');
     else setTimeOfDay('Good Evening');
-
-    // Auto-advance slides
-    const slideTimer = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % heroContent.length);
-    }, 6000);
-
-    // Auto-advance story moments
-    const storyTimer = setInterval(() => {
-      setActiveStoryMoment((prev) => (prev + 1) % storyMoments.length);
-    }, 3000);
-
-    return () => {
-      clearInterval(slideTimer);
-      clearInterval(storyTimer);
-    };
   }, []);
 
   return (
     <section id="home" className="relative min-h-screen overflow-hidden">
-      {/* Cinematic Background with Parallax */}
+      {/* Video Background with Parallax */}
       <div 
         ref={bgRef}
         className="absolute inset-0 will-change-transform"
         style={{ transform: `translateY(${bgParallax}px)` }}
       >
-        {heroContent.map((slide, index) => (
-          <div
-            key={index}
-            className={`absolute inset-0 transition-all duration-2000 ease-in-out ${
-              index === currentSlide ? 'opacity-100 scale-100' : 'opacity-0 scale-105'
-            }`}
-          >
-            <Image
-              src={slide.src}
-              alt={slide.alt}
-              fill
-              className="object-cover"
-              priority={index === 0}
-            />
-            {/* Enhanced gradient overlay for better text readability */}
-            <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/20 to-black/60" />
-            {/* Subtle texture overlay */}
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent" />
+        {/* Fallback image while video loads */}
+        {!videoLoaded && (
+          <div className="absolute inset-0 bg-gray-900">
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div className="text-white text-lg">Loading...</div>
+            </div>
           </div>
-        ))}
+        )}
+        
+        {/* Video Background */}
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          onLoadedData={() => setVideoLoaded(true)}
+          className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${
+            videoLoaded ? 'opacity-100' : 'opacity-0'
+          }`}
+        >
+          <source 
+            src="https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4" 
+            type="video/mp4" 
+          />
+          {/* Add your actual video URL above */}
+          Your browser does not support the video tag.
+        </video>
+        
+        {/* Enhanced gradient overlay for better text readability */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/40 to-black/70" />
+        {/* Subtle texture overlay */}
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent" />
       </div>
 
       {/* Main Hero Content with Parallax */}
@@ -120,12 +84,9 @@ export default function Hero() {
                 {t('title')}
               </span>
             </h1>
-            <p className="text-2xl md:text-3xl text-white/90 font-light mb-2 transition-all duration-1000 ease-in-out">
+            <p className="text-2xl md:text-3xl text-white/90 font-light transition-all duration-1000 ease-in-out">
               {t('subtitle')}
             </p>
-            <div className="text-lg text-white/70 font-medium tracking-wider uppercase">
-              {heroContent[currentSlide].moment}
-            </div>
           </div>
 
           {/* Enhanced CTAs with hover animations */}
@@ -148,47 +109,9 @@ export default function Hero() {
             </a>
           </div>
 
-          {/* Interactive Story Timeline */}
-          <div className="hidden md:flex justify-center space-x-8 mb-8">
-            {storyMoments.map((moment, index) => (
-              <div
-                key={index}
-                className={`group cursor-pointer transition-all duration-500 ${
-                  index === activeStoryMoment ? 'scale-110' : 'scale-100 opacity-70'
-                }`}
-                onClick={() => setActiveStoryMoment(index)}
-              >
-                <div className={`flex flex-col items-center p-4 rounded-2xl transition-all duration-300 ${
-                  index === activeStoryMoment 
-                    ? 'bg-white/20 backdrop-blur-sm' 
-                    : 'hover:bg-white/10'
-                }`}>
-                  <div className="text-3xl mb-2">{moment.icon}</div>
-                  <div className="text-white font-medium text-sm mb-1">{moment.label}</div>
-                  <div className="text-white/70 text-xs text-center max-w-20">{moment.description}</div>
-                </div>
-              </div>
-            ))}
-          </div>
         </div>
       </div>
 
-      {/* Enhanced slide indicators */}
-      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2">
-        <div className="flex space-x-3">
-          {heroContent.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => setCurrentSlide(index)}
-              className={`transition-all duration-300 ${
-                index === currentSlide 
-                  ? 'w-12 h-3 bg-white rounded-full' 
-                  : 'w-3 h-3 bg-white/50 rounded-full hover:bg-white/70'
-              }`}
-            />
-          ))}
-        </div>
-      </div>
 
       {/* Floating scroll indicator */}
       <div className="absolute bottom-20 left-1/2 transform -translate-x-1/2 animate-bounce">

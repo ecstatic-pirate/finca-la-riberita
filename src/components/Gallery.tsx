@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { useParallax } from '@/hooks/useParallax';
 import { useScrollReveal } from '@/hooks/useScrollReveal';
@@ -41,7 +41,7 @@ const galleryImages = [
 
 export default function Gallery() {
   const [selectedCategory, setSelectedCategory] = useState('all');
-  const [lightboxImage, setLightboxImage] = useState<string | null>(null);
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
   const t = useTranslations('gallery');
   
   // Parallax effects for header and subtext
@@ -57,6 +57,42 @@ export default function Gallery() {
   const filteredImages = selectedCategory === 'all' 
     ? galleryImages 
     : galleryImages.filter(img => img.category === selectedCategory);
+
+  const handlePrevImage = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (lightboxIndex !== null) {
+      const newIndex = lightboxIndex === 0 ? filteredImages.length - 1 : lightboxIndex - 1;
+      setLightboxIndex(newIndex);
+    }
+  };
+
+  const handleNextImage = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (lightboxIndex !== null) {
+      const newIndex = lightboxIndex === filteredImages.length - 1 ? 0 : lightboxIndex + 1;
+      setLightboxIndex(newIndex);
+    }
+  };
+
+  const handleKeyDown = (e: KeyboardEvent) => {
+    if (lightboxIndex === null) return;
+    
+    if (e.key === 'ArrowLeft') {
+      handlePrevImage(e as any);
+    } else if (e.key === 'ArrowRight') {
+      handleNextImage(e as any);
+    } else if (e.key === 'Escape') {
+      setLightboxIndex(null);
+    }
+  };
+
+  // Add keyboard navigation
+  useEffect(() => {
+    if (lightboxIndex !== null) {
+      window.addEventListener('keydown', handleKeyDown);
+      return () => window.removeEventListener('keydown', handleKeyDown);
+    }
+  }, [lightboxIndex]);
 
   return (
     <section id="gallery" className="py-20 bg-white">
@@ -103,7 +139,7 @@ export default function Gallery() {
             <div
               key={index}
               className="relative h-80 rounded-lg overflow-hidden shadow-lg cursor-pointer group"
-              onClick={() => setLightboxImage(image.src)}
+              onClick={() => setLightboxIndex(index)}
             >
               <Image
                 src={image.src}
@@ -117,25 +153,55 @@ export default function Gallery() {
           ))}
         </div>
 
-        {lightboxImage && (
+        {lightboxIndex !== null && (
           <div
             className="fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center p-4"
-            onClick={() => setLightboxImage(null)}
+            onClick={() => setLightboxIndex(null)}
           >
-            <div className="relative max-w-5xl max-h-[90vh]">
+            <div className="relative max-w-5xl max-h-[90vh] w-full">
               <Image
-                src={lightboxImage}
-                alt="Gallery image"
+                src={filteredImages[lightboxIndex].src}
+                alt={filteredImages[lightboxIndex].alt}
                 width={1200}
                 height={800}
                 className="object-contain"
+                onClick={(e) => e.stopPropagation()}
               />
+              
+              {/* Close button */}
               <button
-                className="absolute top-4 right-4 text-white text-4xl hover:text-gray-300"
-                onClick={() => setLightboxImage(null)}
+                className="absolute top-4 right-4 text-white text-4xl hover:text-gray-300 transition-colors"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setLightboxIndex(null);
+                }}
+                aria-label="Close gallery"
               >
                 ×
               </button>
+              
+              {/* Previous button */}
+              <button
+                className="absolute left-4 top-1/2 -translate-y-1/2 text-white text-6xl hover:text-gray-300 transition-colors p-4"
+                onClick={handlePrevImage}
+                aria-label="Previous image"
+              >
+                ‹
+              </button>
+              
+              {/* Next button */}
+              <button
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-white text-6xl hover:text-gray-300 transition-colors p-4"
+                onClick={handleNextImage}
+                aria-label="Next image"
+              >
+                ›
+              </button>
+              
+              {/* Image counter */}
+              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-white text-sm bg-black/50 px-3 py-1 rounded-full">
+                {lightboxIndex + 1} / {filteredImages.length}
+              </div>
             </div>
           </div>
         )}

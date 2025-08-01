@@ -1,10 +1,13 @@
 {
   "navigation": {
     "home": "Home",
-    "about": "About Us",
-    "gallery": "Gallery",
+    "about": "The Estate",
+    "accommodation": "Accommodation",
+    "gallery": "Photos",
     "packages": "Packages",
     "testimonials": "Testimonials",
+    "faq": "FAQ",
+    "booking": "Book Your Visit",
     "contact": "Contact"
   },
   "hero": {
@@ -15,7 +18,7 @@
     "discoverMore": "Discover More"
   },
   "about": {
-    "title": "About Us",
+    "title": "The Estate",
     "subtitle": "A magical place for unforgettable moments",
     "description": "Finca La Riberita is a unique space for celebrating special events. Located in a privileged natural environment, our estate offers modern facilities and top-quality services to make your event an unforgettable experience.",
     "scheduleTour": "Schedule a tour",
@@ -39,7 +42,7 @@
     }
   },
   "gallery": {
-    "title": "Gallery",
+    "title": "Photos",
     "subtitle": "Glimpses of magical moments at Riberita",
     "categories": {
       "all": "All",
@@ -82,9 +85,57 @@
       ]
     }
   },
+  "quote": {
+    "text": "An elegant celebration is one that touches hearts, creates memories, and stands the test of time through the beauty of its simplicity",
+    "author": "Finca La Riberita"
+  },
   "testimonials": {
     "title": "Testimonials",
     "subtitle": "What our clients say"
+  },
+  "faq": {
+    "title": "Frequently Asked Questions",
+    "subtitle": "Find answers to common questions about our venue",
+    "items": {
+      "pricing": {
+        "question": "How much does it cost to rent the venue?",
+        "answer": "Our rental prices vary depending on the type of event, day of the week, and season. Wedding packages start from €5,000 for intimate celebrations up to 50 guests. Please contact us for a personalized quote based on your specific needs."
+      },
+      "included": {
+        "question": "What's included in the rental?",
+        "answer": "Our rental includes exclusive use of the venue spaces, basic furniture setup, parking facilities, event coordination support, and cleaning services. Additional services like catering, decoration, and entertainment can be arranged through our preferred vendors or your own choices."
+      },
+      "accommodation": {
+        "question": "Is there accommodation nearby?",
+        "answer": "Yes, there are several hotels and rural houses within a 10-15 minute drive from the venue. We have partnerships with local accommodations that offer special rates for our guests. We can provide a list of recommended places upon request."
+      },
+      "capacity": {
+        "question": "What is the maximum capacity?",
+        "answer": "Our venue can accommodate up to 300 guests for cocktail-style events and up to 250 guests for seated dinners. The outdoor ceremony area can host up to 200 guests, while our indoor spaces are perfect for more intimate gatherings."
+      },
+      "catering": {
+        "question": "Can we bring our own catering?",
+        "answer": "Yes, you have the flexibility to choose your own catering service or select from our list of preferred caterers who are familiar with our facilities. We have a fully equipped kitchen available for use by professional catering teams."
+      },
+      "availability": {
+        "question": "How far in advance should we book?",
+        "answer": "We recommend booking at least 6-12 months in advance for weekend weddings, especially during peak season (May to October). For weekday events or off-season dates, 3-6 months is usually sufficient. Contact us to check current availability."
+      }
+    },
+    "cta": {
+      "text": "Have more questions?",
+      "button": "Book a Visit"
+    }
+  },
+  "booking": {
+    "title": "Book Your Visit",
+    "subtitle": "Schedule a consultation or tour of our beautiful venue",
+    "info": {
+      "availability": "Availability",
+      "availabilityText": "Monday to Sunday, 10:00 AM - 6:00 PM",
+      "duration": "Duration",
+      "durationText": "30-minute consultations"
+    }
   },
   "contact": {
     "title": "Contact",
@@ -106,15 +157,27 @@
       }
     },
     "info": {
+      "getInTouch": "Get in Touch",
       "address": "Address",
       "addressValue": "37116 La Riberita, Salamanca, Spain",
       "phone": "Phone",
       "phoneValue": "+34 655 01 30 34",
       "email": "Email",
-      "emailValue": "info@fincalariberita.com"
+      "emailValue": "fincalariberita@gmail.com"
     }
   },
   "footer": {
+    "description": "Creating unforgettable experiences in the heart of Salamanca",
+    "quickLinks": "Quick Links",
+    "services": "Services",
+    "servicesItems": {
+      "weddings": "Wedding Ceremonies",
+      "corporate": "Corporate Events",
+      "events": "Private Celebrations",
+      "catering": "Catering Services"
+    },
+    "contact": "Contact Info",
+    "followUs": "Follow Us",
     "rights": "All rights reserved",
     "privacy": "Privacy Policy",
     "terms": "Terms and Conditions"

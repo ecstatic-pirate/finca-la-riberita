@@ -1,6 +1,5 @@
 'use client';
 
-import { useState } from 'react';
 import Image from 'next/image';
 import { useParallax } from '@/hooks/useParallax';
 import { useScrollReveal } from '@/hooks/useScrollReveal';
@@ -28,7 +27,6 @@ const testimonials = [
 ];
 
 export default function Testimonials() {
-  const [currentTestimonial, setCurrentTestimonial] = useState(0);
   const t = useTranslations('testimonials');
   
   // Parallax effects for header and subtext
@@ -38,7 +36,7 @@ export default function Testimonials() {
   // Scroll reveal effects
   const { isVisible: headerVisible, elementRef: headerRef } = useScrollReveal({ threshold: 0.2 });
   const { isVisible: subtextVisible, elementRef: subtextRef } = useScrollReveal({ threshold: 0.2, delay: 200 });
-  const { isVisible: cardVisible, elementRef: cardRef } = useScrollReveal({ threshold: 0.1, delay: 400 });
+  const { isVisible: cardsVisible, elementRef: cardsRef } = useScrollReveal({ threshold: 0.1, delay: 400 });
 
   return (
     <section id="testimonials" className="py-20 bg-white">
@@ -64,51 +62,45 @@ export default function Testimonials() {
           </p>
         </div>
 
-        <div className="max-w-4xl mx-auto">
-          <div 
-            ref={cardRef}
-            className={`bg-gray-50 rounded-lg p-8 md:p-12 shadow-lg transition-all duration-1000 transform ${
-              cardVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
-            }`}
-          >
-            <div className="flex items-center justify-center mb-8">
-              <div className="relative w-24 h-24 rounded-full overflow-hidden">
-                <Image
-                  src={testimonials[currentTestimonial].image}
-                  alt={testimonials[currentTestimonial].name}
-                  fill
-                  sizes="96px"
-                  className="object-cover"
-                />
+        <div 
+          ref={cardsRef}
+          className={`grid md:grid-cols-3 gap-8 transition-all duration-1000 transform ${
+            cardsVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
+          }`}
+        >
+          {testimonials.map((testimonial, index) => (
+            <div 
+              key={index}
+              className="bg-gray-50 rounded-lg p-8 shadow-lg hover:shadow-xl transition-shadow duration-300"
+              style={{ transitionDelay: `${index * 100}ms` }}
+            >
+              <div className="flex items-center justify-center mb-6">
+                <div className="relative w-20 h-20 rounded-full overflow-hidden">
+                  <Image
+                    src={testimonial.image}
+                    alt={testimonial.name}
+                    fill
+                    sizes="80px"
+                    className="object-cover"
+                  />
+                </div>
               </div>
+
+              <blockquote className="text-center">
+                <p className="text-gray-700 italic mb-4">
+                  "{testimonial.text}"
+                </p>
+                <footer>
+                  <p className="text-lg font-semibold text-gray-900">
+                    {testimonial.name}
+                  </p>
+                  <p className="text-gray-600 text-sm">
+                    {testimonial.date}
+                  </p>
+                </footer>
+              </blockquote>
             </div>
-
-            <blockquote className="text-center">
-              <p className="text-xl text-gray-700 italic mb-6">
-                "{testimonials[currentTestimonial].text}"
-              </p>
-              <footer>
-                <p className="text-lg font-semibold text-gray-900">
-                  {testimonials[currentTestimonial].name}
-                </p>
-                <p className="text-gray-600">
-                  {testimonials[currentTestimonial].date}
-                </p>
-              </footer>
-            </blockquote>
-          </div>
-
-          <div className="flex justify-center mt-8 space-x-2">
-            {testimonials.map((_, index) => (
-              <button
-                key={index}
-                onClick={() => setCurrentTestimonial(index)}
-                className={`w-3 h-3 rounded-full transition-colors ${
-                  index === currentTestimonial ? 'bg-primary-500' : 'bg-gray-300'
-                }`}
-              />
-            ))}
-          </div>
+          ))}
         </div>
       </div>
     </section>
