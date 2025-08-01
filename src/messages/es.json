@@ -54,6 +54,28 @@
       }
     }
   },
+  "accommodation": {
+    "title": "Alojamiento",
+    "subtitle": "Opciones cercanas para tus invitados",
+    "description": "Comodidad y conveniencia",
+    "details": "Hemos seleccionado cuidadosamente los mejores alojamientos cercanos para garantizar que tus invitados disfruten de una estancia cómoda. Desde hoteles boutique hasta encantadoras casas rurales, todas las opciones están a pocos minutos de nuestra finca.",
+    "imageAlt": "Vista del alojamiento cercano a La Riberita",
+    "scheduleTour": "Conoce las opciones",
+    "features": {
+      "comfort": {
+        "title": "Confort garantizado",
+        "description": "Habitaciones amplias y bien equipadas con todas las comodidades modernas"
+      },
+      "location": {
+        "title": "Ubicación estratégica",
+        "description": "A solo 10-15 minutos en coche de la finca, con fácil acceso y señalización clara"
+      },
+      "amenities": {
+        "title": "Servicios completos",
+        "description": "Desayuno incluido, Wi-Fi gratuito, estacionamiento y servicio de transporte disponible"
+      }
+    }
+  },
   "gallery": {
     "title": "Fotos",
     "subtitle": "Momentos mágicos en La Riberita",

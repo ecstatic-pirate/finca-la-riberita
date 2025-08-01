@@ -54,6 +54,28 @@
       }
     }
   },
+  "accommodation": {
+    "title": "Accommodation",
+    "subtitle": "Nearby options for your guests",
+    "description": "Comfort and convenience",
+    "details": "We have carefully selected the best nearby accommodations to ensure your guests enjoy a comfortable stay. From boutique hotels to charming rural houses, all options are just minutes away from our estate.",
+    "imageAlt": "View of accommodation near La Riberita",
+    "scheduleTour": "View options",
+    "features": {
+      "comfort": {
+        "title": "Guaranteed comfort",
+        "description": "Spacious, well-equipped rooms with all modern amenities"
+      },
+      "location": {
+        "title": "Strategic location",
+        "description": "Just 10-15 minutes drive from the estate, with easy access and clear signage"
+      },
+      "amenities": {
+        "title": "Complete services",
+        "description": "Breakfast included, free Wi-Fi, parking, and shuttle service available"
+      }
+    }
+  },
   "gallery": {
     "title": "Photos",
     "subtitle": "Glimpses of magical moments at Riberita",
