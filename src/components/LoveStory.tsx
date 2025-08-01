@@ -99,71 +99,159 @@ export default function LoveStory() {
                 style={{ transitionDelay: `${index * 200}ms` }}
               >
                 {/* Desktop Layout */}
-                <div className={`hidden md:grid grid-cols-2 gap-12 items-center ${
-                  index % 2 === 0 ? '' : 'direction-rtl'
-                }`}>
-                  {/* Content Side */}
-                  <div className={`${index % 2 === 0 ? 'text-right pr-8' : 'text-left pl-8'}`}>
-                    <div className={`inline-block px-4 py-2 rounded-full text-sm font-medium text-white mb-4 bg-gradient-to-r ${step.color}`}>
-                      Step {index + 1}
-                    </div>
-                    <h3 className="text-3xl font-serif text-gray-900 mb-2">{step.title}</h3>
-                    <h4 className="text-xl text-gray-600 mb-4 font-light">{step.subtitle}</h4>
-                    <p className="text-gray-700 mb-6 leading-relaxed">{step.description}</p>
-                    <div className={`p-4 rounded-lg bg-white shadow-sm border-l-4 bg-gradient-to-r ${step.color.replace('from-', 'border-').split(' ')[0]}`}>
-                      <p className="text-sm text-gray-600 italic">{step.venueConnection}</p>
-                    </div>
-                  </div>
-
-                  {/* Image Side */}
-                  <div className={`${index % 2 === 0 ? 'order-2' : 'order-1'}`}>
-                    <div className="relative group">
-                      <div className="relative h-80 rounded-2xl overflow-hidden shadow-2xl">
-                        <Image
-                          src={step.image}
-                          alt={step.title}
-                          fill
-                          className="object-cover transition-transform duration-500 group-hover:scale-110"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
-                      </div>
-                      {/* Floating Icon */}
-                      <div className={`absolute -top-4 -right-4 w-16 h-16 rounded-full bg-gradient-to-r ${step.color} flex items-center justify-center text-2xl shadow-lg`}>
-                        {step.icon}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Mobile Layout */}
-                <div className="block md:hidden">
-                  <div className="text-center mb-6">
-                    <div className={`inline-block w-16 h-16 rounded-full bg-gradient-to-r ${step.color} flex items-center justify-center text-2xl mb-4 shadow-lg`}>
-                      {step.icon}
-                    </div>
-                    <div className={`inline-block px-4 py-2 rounded-full text-sm font-medium text-white mb-4 bg-gradient-to-r ${step.color}`}>
-                      Step {index + 1}
-                    </div>
-                  </div>
-                  
-                  <div className="relative h-64 rounded-2xl overflow-hidden shadow-xl mb-6">
+                {step.id === 'lafinca' ? (
+                  /* Immersive La Finca Layout */
+                  <div className="relative h-[70vh] min-h-[500px] rounded-3xl overflow-hidden shadow-2xl">
+                    {/* Background Image */}
                     <Image
                       src={step.image}
                       alt={step.title}
                       fill
-                      className="object-cover"
+                      className="object-cover transition-transform duration-700 hover:scale-105"
+                      priority
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                    
+                    {/* Overlay Gradient */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
+                    
+                    {/* Content Overlay */}
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <div className="text-center text-white max-w-4xl mx-auto px-8">
+                        {/* Floating Icon */}
+                        <div className={`inline-flex w-20 h-20 rounded-full bg-gradient-to-r ${step.color} items-center justify-center text-3xl shadow-2xl mb-6`}>
+                          {step.icon}
+                        </div>
+                        
+                        <div className={`inline-block px-6 py-3 rounded-full text-sm font-medium text-white mb-6 bg-gradient-to-r ${step.color} shadow-lg`}>
+                          Step {index + 1}
+                        </div>
+                        
+                        <h3 className="text-5xl md:text-6xl font-serif text-white mb-4 drop-shadow-lg">{step.title}</h3>
+                        <h4 className="text-2xl md:text-3xl text-white/90 mb-8 font-light drop-shadow-md">{step.subtitle}</h4>
+                        <p className="text-lg md:text-xl text-white/80 mb-8 leading-relaxed max-w-3xl mx-auto drop-shadow-md">{step.description}</p>
+                        
+                        {/* Venue Connection Card */}
+                        <div className="inline-block bg-white/95 backdrop-blur-sm rounded-2xl p-6 shadow-2xl border border-white/20 max-w-2xl">
+                          <p className="text-gray-700 text-base md:text-lg leading-relaxed">{step.venueConnection}</p>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    {/* Decorative Elements */}
+                    <div className="absolute top-8 left-8 w-16 h-16 bg-white/10 rounded-full backdrop-blur-sm border border-white/20"></div>
+                    <div className="absolute bottom-8 right-8 w-12 h-12 bg-white/10 rounded-full backdrop-blur-sm border border-white/20"></div>
                   </div>
+                ) : (
+                  /* Standard Layout for Other Steps */
+                  <div className={`hidden md:grid grid-cols-2 gap-12 items-center ${
+                    index % 2 === 0 ? '' : 'direction-rtl'
+                  }`}>
+                    {/* Content Side */}
+                    <div className={`${index % 2 === 0 ? 'text-right pr-8' : 'text-left pl-8'}`}>
+                      <div className={`inline-block px-4 py-2 rounded-full text-sm font-medium text-white mb-4 bg-gradient-to-r ${step.color}`}>
+                        Step {index + 1}
+                      </div>
+                      <h3 className="text-3xl font-serif text-gray-900 mb-2">{step.title}</h3>
+                      <h4 className="text-xl text-gray-600 mb-4 font-light">{step.subtitle}</h4>
+                      <p className="text-gray-700 mb-6 leading-relaxed">{step.description}</p>
+                      <div className={`p-4 rounded-lg bg-white shadow-sm border-l-4 bg-gradient-to-r ${step.color.replace('from-', 'border-').split(' ')[0]}`}>
+                        <p className="text-sm text-gray-600 italic">{step.venueConnection}</p>
+                      </div>
+                    </div>
 
-                  <div className="text-center">
-                    <h3 className="text-2xl font-serif text-gray-900 mb-2">{step.title}</h3>
-                    <h4 className="text-lg text-gray-600 mb-4 font-light">{step.subtitle}</h4>
-                    <p className="text-gray-700 mb-4 leading-relaxed">{step.description}</p>
-                    <div className={`p-4 rounded-lg bg-white shadow-sm border-l-4 bg-gradient-to-r ${step.color.replace('from-', 'border-').split(' ')[0]}`}>
-                      <p className="text-sm text-gray-600 italic">{step.venueConnection}</p>
+                    {/* Image Side */}
+                    <div className={`${index % 2 === 0 ? 'order-2' : 'order-1'}`}>
+                      <div className="relative group">
+                        <div className="relative h-80 rounded-2xl overflow-hidden shadow-2xl">
+                          <Image
+                            src={step.image}
+                            alt={step.title}
+                            fill
+                            className="object-cover transition-transform duration-500 group-hover:scale-110"
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                        </div>
+                        {/* Floating Icon */}
+                        <div className={`absolute -top-4 -right-4 w-16 h-16 rounded-full bg-gradient-to-r ${step.color} flex items-center justify-center text-2xl shadow-lg`}>
+                          {step.icon}
+                        </div>
+                      </div>
                     </div>
                   </div>
+                )}
+
+                {/* Mobile Layout */}
+                <div className="block md:hidden">
+                  {step.id === 'lafinca' ? (
+                    /* Immersive La Finca Mobile Layout */
+                    <div className="relative h-[60vh] min-h-[400px] rounded-2xl overflow-hidden shadow-2xl">
+                      {/* Background Image */}
+                      <Image
+                        src={step.image}
+                        alt={step.title}
+                        fill
+                        className="object-cover"
+                        priority
+                      />
+                      
+                      {/* Overlay Gradient */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
+                      
+                      {/* Content Overlay */}
+                      <div className="absolute inset-0 flex items-center justify-center p-6">
+                        <div className="text-center text-white w-full">
+                          {/* Floating Icon */}
+                          <div className={`inline-flex w-16 h-16 rounded-full bg-gradient-to-r ${step.color} items-center justify-center text-2xl shadow-2xl mb-4`}>
+                            {step.icon}
+                          </div>
+                          
+                          <div className={`inline-block px-4 py-2 rounded-full text-sm font-medium text-white mb-4 bg-gradient-to-r ${step.color} shadow-lg`}>
+                            Step {index + 1}
+                          </div>
+                          
+                          <h3 className="text-3xl font-serif text-white mb-2 drop-shadow-lg">{step.title}</h3>
+                          <h4 className="text-xl text-white/90 mb-4 font-light drop-shadow-md">{step.subtitle}</h4>
+                          <p className="text-white/80 mb-6 leading-relaxed drop-shadow-md text-sm">{step.description}</p>
+                          
+                          {/* Venue Connection Card */}
+                          <div className="bg-white/95 backdrop-blur-sm rounded-xl p-4 shadow-xl border border-white/20">
+                            <p className="text-gray-700 text-sm leading-relaxed">{step.venueConnection}</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    /* Standard Mobile Layout for Other Steps */
+                    <div>
+                      <div className="text-center mb-6">
+                        <div className={`inline-block w-16 h-16 rounded-full bg-gradient-to-r ${step.color} flex items-center justify-center text-2xl mb-4 shadow-lg`}>
+                          {step.icon}
+                        </div>
+                        <div className={`inline-block px-4 py-2 rounded-full text-sm font-medium text-white mb-4 bg-gradient-to-r ${step.color}`}>
+                          Step {index + 1}
+                        </div>
+                      </div>
+                      
+                      <div className="relative h-64 rounded-2xl overflow-hidden shadow-xl mb-6">
+                        <Image
+                          src={step.image}
+                          alt={step.title}
+                          fill
+                          className="object-cover"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                      </div>
+
+                      <div className="text-center">
+                        <h3 className="text-2xl font-serif text-gray-900 mb-2">{step.title}</h3>
+                        <h4 className="text-lg text-gray-600 mb-4 font-light">{step.subtitle}</h4>
+                        <p className="text-gray-700 mb-4 leading-relaxed">{step.description}</p>
+                        <div className={`p-4 rounded-lg bg-white shadow-sm border-l-4 bg-gradient-to-r ${step.color.replace('from-', 'border-').split(' ')[0]}`}>
+                          <p className="text-sm text-gray-600 italic">{step.venueConnection}</p>
+                        </div>
+                      </div>
+                    </div>
+                  )}
                 </div>
 
                 {/* Timeline Dot */}
