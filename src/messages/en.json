@@ -15,7 +15,12 @@
     "subtitle": "The perfect place for your events and celebrations",
     "cta": "Learn more",
     "explore": "Explore Our Venue",
-    "discoverMore": "Discover More"
+    "discoverMore": "Explore Our Space",
+    "greetings": {
+      "morning": "Good Morning",
+      "afternoon": "Good Afternoon",
+      "evening": "Good Evening"
+    }
   },
   "about": {
     "title": "The Estate",
@@ -38,6 +43,14 @@
       "quality": {
         "title": "Quality",
         "description": "Excellence in every detail of your celebration"
+      },
+      "parking": {
+        "title": "Parking",
+        "description": "Spacious parking area for all your guests"
+      },
+      "gardens": {
+        "title": "Gardens",
+        "description": "Beautiful landscaped gardens for outdoor celebrations"
       }
     }
   },
@@ -87,7 +100,7 @@
   },
   "quote": {
     "text": "An elegant celebration is one that touches hearts, creates memories, and stands the test of time through the beauty of its simplicity",
-    "author": "Finca La Riberita"
+    "author": "Eloy López De Castillo"
   },
   "testimonials": {
     "title": "Testimonials",

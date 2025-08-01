@@ -5,11 +5,21 @@ import Image from 'next/image';
 
 const journeySteps = [
   {
+    id: 'lafinca',
+    title: 'La Finca',
+    subtitle: 'Your Dream Venue',
+    description: 'Discover the breathtaking beauty of our estate, where nature and elegance blend to create the perfect setting for your special day.',
+    image: '/ChatGPT Image Aug 1, 2025, 04_12_21 AM.png',
+    icon: '🏛️',
+    venueConnection: 'Our historic finca offers stunning panoramic views and timeless charm for your celebration.',
+    color: 'from-purple-400 to-indigo-500'
+  },
+  {
     id: 'celebration',
     title: 'The Celebration',
     subtitle: 'Your Perfect Day',
     description: 'Surrounded by loved ones, you celebrate the beginning of your new chapter in absolute elegance.',
-    image: 'https://images.unsplash.com/photo-1519167758481-83f550bb49b3?w=800',
+    image: '/images/WhatsApp Image 2025-08-01 at 03.14.50 (3).jpeg',
     icon: '✨',
     venueConnection: 'From intimate ceremonies to grand receptions, our versatile spaces adapt to your dream.',
     color: 'from-amber-400 to-orange-500'
@@ -19,7 +29,7 @@ const journeySteps = [
     title: 'The Memories',
     subtitle: 'Forever After',
     description: 'Years from now, you\'ll return to these moments and remember every detail of your perfect day.',
-    image: 'https://images.unsplash.com/photo-1522673607200-164d1b6ce486?w=800',
+    image: '/images/WhatsApp Image 2025-08-01 at 03.14.50 (4).jpeg',
     icon: '🥂',
     venueConnection: 'Join our Riberita family - many couples return for anniversaries and celebrations.',
     color: 'from-emerald-400 to-teal-500'

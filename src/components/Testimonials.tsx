@@ -9,19 +9,19 @@ const testimonials = [
   {
     name: 'Sarah & Michael',
     date: 'June 2023',
-    image: 'https://images.unsplash.com/photo-1522673607200-164d1b6ce486?w=200',
+    image: '/images/WhatsApp Image 2025-08-01 at 03.14.51 (1).jpeg',
     text: 'Riberita exceeded all our expectations! The venue was absolutely stunning, and the staff went above and beyond to make our day perfect. We couldn\'t have asked for a better wedding venue.'
   },
   {
     name: 'Emily & David',
     date: 'September 2023',
-    image: 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=200',
+    image: '/images/WhatsApp Image 2025-08-01 at 03.14.51 (2).jpeg',
     text: 'From the moment we toured Riberita, we knew it was the one. The gardens provided the most romantic backdrop, and the ballroom was elegant beyond words. Our guests are still talking about it!'
   },
   {
     name: 'Jessica & Ryan',
     date: 'December 2023',
-    image: 'https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=200',
+    image: '/images/WhatsApp Image 2025-08-01 at 03.14.51 (3).jpeg',
     text: 'The team at Riberita made planning our wedding a breeze. They were professional, attentive, and truly cared about making our vision come to life. It was the fairy tale wedding we always dreamed of.'
   }
 ];

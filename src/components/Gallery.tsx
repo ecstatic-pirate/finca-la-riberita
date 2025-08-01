@@ -2,210 +2,240 @@
 
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
-import { useParallax } from '@/hooks/useParallax';
-import { useScrollReveal } from '@/hooks/useScrollReveal';
 import { useTranslations } from 'next-intl';
 
-const galleryImages = [
-  {
-    src: 'https://images.unsplash.com/photo-1606800052052-a08af7148866?w=800',
-    alt: 'Outdoor ceremony setup',
-    category: 'ceremony'
-  },
-  {
-    src: 'https://images.unsplash.com/photo-1587271407850-8d438ca9fdf2?w=800',
-    alt: 'Reception hall',
-    category: 'reception'
-  },
-  {
-    src: 'https://images.unsplash.com/photo-1511795409834-ef04bbd61622?w=800',
-    alt: 'Wedding details',
-    category: 'details'
-  },
-  {
-    src: 'https://images.unsplash.com/photo-1522413452208-996ff3f3e740?w=800',
-    alt: 'Garden ceremony',
-    category: 'ceremony'
-  },
-  {
-    src: 'https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=800',
-    alt: 'Reception dining',
-    category: 'reception'
-  },
-  {
-    src: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800',
-    alt: 'Floral arrangements',
-    category: 'details'
-  }
-];
+interface MediaItem {
+  src: string;
+  alt: string;
+  category: string;
+  type: 'image' | 'video';
+}
 
 export default function Gallery() {
-  const [selectedCategory, setSelectedCategory] = useState('all');
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
+  const [galleryImages, setGalleryImages] = useState<MediaItem[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [showAll, setShowAll] = useState(false);
   const t = useTranslations('gallery');
-  
-  // Parallax effects for header and subtext
-  const { parallaxOffset: headerParallax } = useParallax({ speed: 0.3 });
-  const { parallaxOffset: subtextParallax } = useParallax({ speed: 0.4 });
-  
-  // Scroll reveal effects
-  const { isVisible: headerVisible, elementRef: headerRef } = useScrollReveal({ threshold: 0.2 });
-  const { isVisible: subtextVisible, elementRef: subtextRef } = useScrollReveal({ threshold: 0.2, delay: 200 });
 
-  const categories = ['all', 'ceremony', 'reception', 'details'];
+  // Load gallery images dynamically
+  useEffect(() => {
+    fetch('/api/gallery')
+      .then(res => {
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`);
+        }
+        return res.json();
+      })
+      .then(data => {
+        console.log('Gallery data loaded:', data.length, 'items');
+        setGalleryImages(data);
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error('Failed to load gallery:', err);
+        setLoading(false);
+      });
+  }, []);
 
-  const filteredImages = selectedCategory === 'all' 
-    ? galleryImages 
-    : galleryImages.filter(img => img.category === selectedCategory);
-
-  const handlePrevImage = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    if (lightboxIndex !== null) {
-      const newIndex = lightboxIndex === 0 ? filteredImages.length - 1 : lightboxIndex - 1;
-      setLightboxIndex(newIndex);
-    }
-  };
-
-  const handleNextImage = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    if (lightboxIndex !== null) {
-      const newIndex = lightboxIndex === filteredImages.length - 1 ? 0 : lightboxIndex + 1;
-      setLightboxIndex(newIndex);
-    }
-  };
+  // Limit to 9 images initially
+  const displayedImages = showAll ? galleryImages : galleryImages.slice(0, 9);
+  const hasMoreImages = galleryImages.length > 9;
 
   const handleKeyDown = (e: KeyboardEvent) => {
     if (lightboxIndex === null) return;
     
-    if (e.key === 'ArrowLeft') {
-      handlePrevImage(e as any);
-    } else if (e.key === 'ArrowRight') {
-      handleNextImage(e as any);
+    if (e.key === 'ArrowRight') {
+      setLightboxIndex((lightboxIndex + 1) % galleryImages.length);
+    } else if (e.key === 'ArrowLeft') {
+      setLightboxIndex((lightboxIndex - 1 + galleryImages.length) % galleryImages.length);
     } else if (e.key === 'Escape') {
       setLightboxIndex(null);
     }
   };
 
-  // Add keyboard navigation
   useEffect(() => {
     if (lightboxIndex !== null) {
       window.addEventListener('keydown', handleKeyDown);
       return () => window.removeEventListener('keydown', handleKeyDown);
     }
-  }, [lightboxIndex]);
+  }, [lightboxIndex, galleryImages.length]);
+
+  if (loading) {
+    return (
+      <section id="gallery" className="py-20 bg-gray-50">
+        <div className="flex justify-center items-center h-64">
+          <div className="text-gray-500">Loading gallery...</div>
+        </div>
+      </section>
+    );
+  }
+
+  if (galleryImages.length === 0) {
+    return (
+      <section id="gallery" className="py-20 bg-gray-50">
+        <div className="flex justify-center items-center h-64">
+          <div className="text-gray-500">No images found.</div>
+        </div>
+      </section>
+    );
+  }
 
   return (
-    <section id="gallery" className="py-20 bg-white">
+    <section id="gallery" className="py-20 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Header */}
         <div className="text-center mb-12">
-          <h2 
-            ref={headerRef}
-            className={`text-4xl font-serif text-gray-900 mb-4 transition-all duration-700 transform ${
-              headerVisible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-8'
-            }`}
-            style={{ transform: `translateY(${headerVisible ? headerParallax : -32}px)` }}
-          >
+          <h2 className="text-4xl font-serif text-gray-900 mb-4">
             {t('title')}
           </h2>
-          <p 
-            ref={subtextRef}
-            className={`text-lg text-gray-600 transition-all duration-700 transform ${
-              subtextVisible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-8'
-            }`}
-            style={{ transform: `translateY(${subtextVisible ? subtextParallax : -32}px)` }}
-          >
+          <p className="text-lg text-gray-600">
             {t('subtitle')}
           </p>
         </div>
 
-        <div className="flex justify-center space-x-4 mb-12">
-          {categories.map((category) => (
-            <button
-              key={category}
-              onClick={() => setSelectedCategory(category)}
-              className={`px-6 py-2 rounded-full capitalize transition-colors ${
-                selectedCategory === category
-                  ? 'bg-primary-500 text-white'
-                  : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-              }`}
-            >
-              {t(`categories.${category}`)}
-            </button>
-          ))}
-        </div>
-
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredImages.map((image, index) => (
+        {/* Gallery Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {displayedImages.map((item, index) => (
             <div
               key={index}
-              className="relative h-80 rounded-lg overflow-hidden shadow-lg cursor-pointer group"
-              onClick={() => setLightboxIndex(index)}
+              className="group relative overflow-hidden rounded-lg shadow-lg cursor-pointer transform transition-all duration-300 hover:scale-105 hover:shadow-xl"
+              onClick={() => {
+                const actualIndex = galleryImages.findIndex(img => img.src === item.src);
+                setLightboxIndex(actualIndex);
+              }}
             >
-              <Image
-                src={image.src}
-                alt={image.alt}
-                fill
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                className="object-cover transition-transform duration-300 group-hover:scale-110"
-              />
-              <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-opacity" />
+              <div className="relative h-80">
+                {item.type === 'video' ? (
+                  <div className="relative h-full">
+                    <video
+                      src={item.src}
+                      className="w-full h-full object-cover"
+                      muted
+                      loop
+                      playsInline
+                      onMouseEnter={(e) => e.currentTarget.play()}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.pause();
+                        e.currentTarget.currentTime = 0;
+                      }}
+                    />
+                    <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                      <div className="bg-white/80 rounded-full p-4">
+                        <svg className="w-8 h-8 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <Image
+                    src={item.src}
+                    alt={item.alt}
+                    fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    className="object-cover"
+                    quality={90}
+                  />
+                )}
+              </div>
             </div>
           ))}
         </div>
 
-        {lightboxIndex !== null && (
-          <div
-            className="fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center p-4"
-            onClick={() => setLightboxIndex(null)}
-          >
-            <div className="relative max-w-5xl max-h-[90vh] w-full">
-              <Image
-                src={filteredImages[lightboxIndex].src}
-                alt={filteredImages[lightboxIndex].alt}
-                width={1200}
-                height={800}
-                className="object-contain"
-                onClick={(e) => e.stopPropagation()}
-              />
-              
-              {/* Close button */}
-              <button
-                className="absolute top-4 right-4 text-white text-4xl hover:text-gray-300 transition-colors"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setLightboxIndex(null);
-                }}
-                aria-label="Close gallery"
-              >
-                ×
-              </button>
-              
-              {/* Previous button */}
-              <button
-                className="absolute left-4 top-1/2 -translate-y-1/2 text-white text-6xl hover:text-gray-300 transition-colors p-4"
-                onClick={handlePrevImage}
-                aria-label="Previous image"
-              >
-                ‹
-              </button>
-              
-              {/* Next button */}
-              <button
-                className="absolute right-4 top-1/2 -translate-y-1/2 text-white text-6xl hover:text-gray-300 transition-colors p-4"
-                onClick={handleNextImage}
-                aria-label="Next image"
-              >
-                ›
-              </button>
-              
-              {/* Image counter */}
-              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-white text-sm bg-black/50 px-3 py-1 rounded-full">
-                {lightboxIndex + 1} / {filteredImages.length}
-              </div>
-            </div>
+        {/* View More Button */}
+        {hasMoreImages && !showAll && (
+          <div className="text-center mt-12">
+            <button
+              onClick={() => setShowAll(true)}
+              className="inline-flex items-center px-8 py-3 bg-primary-600 text-white font-medium rounded-full hover:bg-primary-700 transition-colors"
+            >
+              View All Photos ({galleryImages.length})
+              <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </button>
+          </div>
+        )}
+
+        {/* Show Less Button */}
+        {showAll && hasMoreImages && (
+          <div className="text-center mt-12">
+            <button
+              onClick={() => setShowAll(false)}
+              className="inline-flex items-center px-8 py-3 border-2 border-primary-600 text-primary-600 font-medium rounded-full hover:bg-primary-50 transition-colors"
+            >
+              Show Less
+              <svg className="w-5 h-5 ml-2 rotate-90" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+              </svg>
+            </button>
           </div>
         )}
       </div>
+
+      {/* Lightbox */}
+      {lightboxIndex !== null && (
+        <div 
+          className="fixed inset-0 bg-black/95 z-50 flex items-center justify-center p-4"
+          onClick={() => setLightboxIndex(null)}
+        >
+          <button
+            className="absolute top-4 right-4 text-white hover:text-gray-300 transition-colors"
+            onClick={() => setLightboxIndex(null)}
+          >
+            <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+          
+          <button
+            className="absolute left-4 top-1/2 transform -translate-y-1/2 text-white hover:text-gray-300 transition-colors"
+            onClick={(e) => {
+              e.stopPropagation();
+              setLightboxIndex((lightboxIndex - 1 + galleryImages.length) % galleryImages.length);
+            }}
+          >
+            <svg className="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+          </button>
+          
+          <button
+            className="absolute right-4 top-1/2 transform -translate-y-1/2 text-white hover:text-gray-300 transition-colors"
+            onClick={(e) => {
+              e.stopPropagation();
+              setLightboxIndex((lightboxIndex + 1) % galleryImages.length);
+            }}
+          >
+            <svg className="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
+          
+          <div className="max-w-7xl max-h-[90vh] mx-auto" onClick={(e) => e.stopPropagation()}>
+            {galleryImages[lightboxIndex].type === 'video' ? (
+              <video
+                src={galleryImages[lightboxIndex].src}
+                className="max-w-full max-h-[90vh] mx-auto"
+                controls
+                autoPlay
+              />
+            ) : (
+              <Image
+                src={galleryImages[lightboxIndex].src}
+                alt={galleryImages[lightboxIndex].alt}
+                width={1200}
+                height={800}
+                className="max-w-full max-h-[90vh] object-contain"
+                quality={95}
+                priority
+              />
+            )}
+          </div>
+        </div>
+      )}
     </section>
   );
 }

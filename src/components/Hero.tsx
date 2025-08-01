@@ -5,30 +5,27 @@ import { useTranslations, useLocale } from 'next-intl';
 import { useParallax } from '@/hooks/useParallax';
 
 export default function Hero() {
-  const [timeOfDay, setTimeOfDay] = useState('Welcome');
+  const [greetingKey, setGreetingKey] = useState('morning');
   const [videoLoaded, setVideoLoaded] = useState(false);
   const t = useTranslations('hero');
   const locale = useLocale();
   
-  // Parallax effects for different layers
-  const { parallaxOffset: bgParallax, elementRef: bgRef } = useParallax({ speed: 0.5 });
+  // Parallax effect for content only
   const { parallaxOffset: contentParallax } = useParallax({ speed: 0.2 });
 
   useEffect(() => {
     // Set greeting based on time of day - only on client side
     const hour = new Date().getHours();
-    if (hour < 12) setTimeOfDay('Good Morning');
-    else if (hour < 17) setTimeOfDay('Good Afternoon');
-    else setTimeOfDay('Good Evening');
+    if (hour >= 5 && hour < 12) setGreetingKey('morning');
+    else if (hour >= 12 && hour < 18) setGreetingKey('afternoon');
+    else setGreetingKey('evening');
   }, []);
 
   return (
     <section id="home" className="relative min-h-screen overflow-hidden">
-      {/* Video Background with Parallax */}
+      {/* Video Background */}
       <div 
-        ref={bgRef}
-        className="absolute inset-0 will-change-transform"
-        style={{ transform: `translateY(${bgParallax}px)` }}
+        className="absolute inset-0"
       >
         {/* Fallback image while video loads */}
         {!videoLoaded && (
@@ -39,24 +36,34 @@ export default function Hero() {
           </div>
         )}
         
-        {/* Video Background */}
-        <video
-          autoPlay
-          muted
-          loop
-          playsInline
-          onLoadedData={() => setVideoLoaded(true)}
-          className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${
-            videoLoaded ? 'opacity-100' : 'opacity-0'
-          }`}
-        >
-          <source 
-            src="https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4" 
-            type="video/mp4" 
+        {/* YouTube Video Background */}
+        <div style={{
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          width: '100vw',
+          height: '100vh',
+          transform: 'translate(-50%, -50%)',
+          overflow: 'hidden'
+        }}>
+          <iframe
+            src="https://www.youtube.com/embed/1vmSTddyzvw?autoplay=1&mute=1&loop=1&playlist=1vmSTddyzvw&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1&enablejsapi=1&vq=hd1080"
+            style={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              width: 'calc(100vw + 400px)',
+              height: 'calc(100vh + 400px)',
+              transform: 'translate(-50%, -50%) scale(1.4)',
+              border: 'none',
+              pointerEvents: 'none'
+            }}
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            onLoad={() => setVideoLoaded(true)}
+            title="Hero Background Video"
           />
-          {/* Add your actual video URL above */}
-          Your browser does not support the video tag.
-        </video>
+        </div>
         
         {/* Enhanced gradient overlay for better text readability */}
         <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/40 to-black/70" />
@@ -73,7 +80,7 @@ export default function Hero() {
           {/* Time-based greeting */}
           <div className="mb-4 opacity-80">
             <span className="text-white/80 text-lg font-light tracking-wide">
-              {timeOfDay} (Locale: {locale})
+              {t(`greetings.${greetingKey}`)}
             </span>
           </div>
 
@@ -89,23 +96,26 @@ export default function Hero() {
             </p>
           </div>
 
-          {/* Enhanced CTAs with hover animations */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
+          {/* Enhanced CTA with hover animation */}
+          <div className="flex justify-center mb-12">
             <a
-              href="#contact"
-              className="group relative inline-flex items-center justify-center px-8 py-4 bg-white text-gray-900 font-semibold rounded-full transition-all duration-300 hover:scale-105 hover:shadow-2xl"
+              href="#booking"
+              onClick={(e) => {
+                e.preventDefault();
+                const targetElement = document.getElementById('booking');
+                if (targetElement) {
+                  const navHeight = 120;
+                  const targetPosition = targetElement.offsetTop - navHeight;
+                  window.scrollTo({
+                    top: targetPosition,
+                    behavior: 'smooth'
+                  });
+                }
+              }}
+              className="group relative inline-flex items-center justify-center px-8 py-4 bg-white text-gray-900 font-semibold rounded-full transition-all duration-300 hover:scale-105 hover:shadow-2xl cursor-pointer"
             >
               <span className="relative z-10">{t('cta')}</span>
               <div className="absolute inset-0 bg-gradient-to-r from-rose-400 to-pink-400 rounded-full opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
-            </a>
-            <a
-              href="#gallery"
-              className="group inline-flex items-center justify-center px-8 py-4 border-2 border-white text-white font-semibold rounded-full transition-all duration-300 hover:bg-white hover:text-gray-900 hover:scale-105"
-            >
-              {t('explore')}
-              <svg className="w-5 h-5 ml-2 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-              </svg>
             </a>
           </div>
 
@@ -114,9 +124,9 @@ export default function Hero() {
 
 
       {/* Floating scroll indicator */}
-      <div className="absolute bottom-20 left-1/2 transform -translate-x-1/2 animate-bounce">
+      <div className="absolute bottom-20 left-0 right-0 flex justify-center animate-bounce">
         <div className="flex flex-col items-center text-white/70">
-          <span className="text-sm mb-2 font-light">{t('discoverMore')}</span>
+          <span className="text-sm mb-2 font-light block">{t('discoverMore')}</span>
           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
           </svg>

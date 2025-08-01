@@ -74,6 +74,24 @@ export default function About() {
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
         </svg>
       )
+    },
+    {
+      title: t('features.parking.title'),
+      description: t('features.parking.description'),
+      icon: (
+        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+        </svg>
+      )
+    },
+    {
+      title: t('features.gardens.title'),
+      description: t('features.gardens.description'),
+      icon: (
+        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+        </svg>
+      )
     }
   ];
 
@@ -112,7 +130,22 @@ export default function About() {
             <p className="text-gray-600 mb-6">
               {t('description')}
             </p>
-            <a href="#contact" className="inline-flex items-center text-primary-600 hover:text-primary-700">
+            <a 
+              href="#booking" 
+              onClick={(e) => {
+                e.preventDefault();
+                const targetElement = document.getElementById('booking');
+                if (targetElement) {
+                  const navHeight = 120;
+                  const targetPosition = targetElement.offsetTop - navHeight;
+                  window.scrollTo({
+                    top: targetPosition,
+                    behavior: 'smooth'
+                  });
+                }
+              }}
+              className="inline-flex items-center text-primary-600 hover:text-primary-700 cursor-pointer"
+            >
               {t('scheduleTour')}
               <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -126,8 +159,8 @@ export default function About() {
             style={{ transform: `translateY(${imageParallax}px) scale(${isVisible ? 1 : 0.95})` }}
           >
             <Image
-              src="https://images.unsplash.com/photo-1519741497674-611481863552?w=800"
-              alt="Finca La Riberita interior"
+              src="/ChatGPT Image Aug 1, 2025, 04_12_21 AM.png"
+              alt="Finca La Riberita aerial view"
               fill
               sizes="(max-width: 768px) 100vw, 50vw"
               className="object-cover"

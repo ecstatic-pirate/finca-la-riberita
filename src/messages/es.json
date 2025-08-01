@@ -15,7 +15,12 @@
     "subtitle": "El lugar perfecto para tus eventos y celebraciones",
     "cta": "Conoce más",
     "explore": "Explora nuestro espacio",
-    "discoverMore": "Descubre más"
+    "discoverMore": "Explora nuestro espacio",
+    "greetings": {
+      "morning": "Buenos días",
+      "afternoon": "Buenas tardes",
+      "evening": "Buenas noches"
+    }
   },
   "about": {
     "title": "La Finca",
@@ -38,6 +43,14 @@
       "quality": {
         "title": "Calidad",
         "description": "Excelencia en cada detalle de tu celebración"
+      },
+      "parking": {
+        "title": "Aparcamiento",
+        "description": "Amplia zona de aparcamiento para todos tus invitados"
+      },
+      "gardens": {
+        "title": "Jardines",
+        "description": "Hermosos jardines paisajísticos para celebraciones al aire libre"
       }
     }
   },
@@ -87,7 +100,7 @@
   },
   "quote": {
     "text": "Una celebración elegante es aquella que toca corazones, crea recuerdos y perdura en el tiempo a través de la belleza de su simplicidad",
-    "author": "Finca La Riberita"
+    "author": "Eloy López De Castillo"
   },
   "testimonials": {
     "title": "Testimonios",
@@ -138,7 +151,7 @@
     }
   },
   "contact": {
-    "title": "Contacto",
+    "title": "Contactar",
     "subtitle": "Estamos aquí para ayudarte",
     "location-title": "Ubicación",
     "form": {

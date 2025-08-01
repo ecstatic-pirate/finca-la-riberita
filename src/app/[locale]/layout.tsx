@@ -15,6 +15,16 @@ export const metadata: Metadata = {
   title: "Finca La Riberita - Tu lugar para eventos especiales",
   description: "Descubre Finca La Riberita, un espacio único para bodas, eventos corporativos y celebraciones privadas con vistas impresionantes y servicio excepcional.",
   keywords: "finca eventos, bodas, eventos corporativos, celebraciones, Madrid",
+  icons: {
+    icon: [
+      { url: '/favicon.ico' },
+      { url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
+      { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
+    ],
+    apple: [
+      { url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
+    ],
+  },
 };
 
 export default async function LocaleLayout({

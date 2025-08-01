@@ -42,8 +42,25 @@ export default function Navigation() {
     { key: 'about', href: '#about' },
     { key: 'gallery', href: '#gallery' },
     { key: 'testimonials', href: '#testimonials' },
-    { key: 'faq', href: '#faq' }
+    { key: 'faq', href: '#faq' },
+    { key: 'contact', href: '#contact' }
   ];
+
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    e.preventDefault();
+    const targetId = href.replace('#', '');
+    const targetElement = document.getElementById(targetId);
+    
+    if (targetElement) {
+      const navHeight = 120; // Height of the navbar + some padding
+      const targetPosition = targetElement.offsetTop - navHeight;
+      
+      window.scrollTo({
+        top: targetPosition,
+        behavior: 'smooth'
+      });
+    }
+  };
 
   return (
     <>
@@ -85,26 +102,28 @@ export default function Navigation() {
           <div className="hidden md:flex items-center space-x-4 ml-auto">
             <div className="flex items-baseline space-x-6">
               {menuItems.map((item) => (
-                <Link
+                <a
                   key={item.key}
                   href={item.href}
-                  className={`text-sm font-medium transition-colors whitespace-nowrap ${
+                  onClick={(e) => handleNavClick(e, item.href)}
+                  className={`text-sm font-medium transition-colors whitespace-nowrap cursor-pointer ${
                     isScrolled ? 'text-gray-700 hover:text-primary-600' : 'text-white hover:text-white/80'
                   }`}
                 >
                   {t(item.key)}
-                </Link>
+                </a>
               ))}
-              <Link
+              <a
                 href="#booking"
-                className={`text-sm font-medium px-4 py-2 rounded-full transition-all whitespace-nowrap ${
+                onClick={(e) => handleNavClick(e, '#booking')}
+                className={`text-sm font-medium px-4 py-2 rounded-full transition-all whitespace-nowrap cursor-pointer ${
                   isScrolled 
                     ? 'bg-primary-600 text-white hover:bg-primary-700' 
                     : 'bg-white text-gray-900 hover:bg-gray-100'
                 }`}
               >
                 {t('booking')}
-              </Link>
+              </a>
             </div>
             <LanguageSwitcher isScrolled={isScrolled} />
           </div>
@@ -142,26 +161,32 @@ export default function Navigation() {
         >
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
             {menuItems.map((item, index) => (
-              <Link
+              <a
                 key={item.key}
                 href={item.href}
-                className="block px-3 py-2 text-gray-700 hover:text-primary-600 font-medium focus:bg-gray-100 focus:outline-none"
-                onClick={() => setIsMobileMenuOpen(false)}
+                className="block px-3 py-2 text-gray-700 hover:text-primary-600 font-medium focus:bg-gray-100 focus:outline-none cursor-pointer"
+                onClick={(e) => {
+                  handleNavClick(e, item.href);
+                  setIsMobileMenuOpen(false);
+                }}
                 role="menuitem"
                 tabIndex={0}
               >
                 {t(item.key)}
-              </Link>
+              </a>
             ))}
-            <Link
+            <a
               href="#booking"
-              className="block mx-3 my-2 px-4 py-2 bg-primary-600 text-white text-center rounded-full hover:bg-primary-700 font-medium"
-              onClick={() => setIsMobileMenuOpen(false)}
+              className="block mx-3 my-2 px-4 py-2 bg-primary-600 text-white text-center rounded-full hover:bg-primary-700 font-medium cursor-pointer"
+              onClick={(e) => {
+                handleNavClick(e, '#booking');
+                setIsMobileMenuOpen(false);
+              }}
               role="menuitem"
               tabIndex={0}
             >
               {t('booking')}
-            </Link>
+            </a>
             <div className="px-3 py-2" role="none">
               <LanguageSwitcher isScrolled={true} />
             </div>
