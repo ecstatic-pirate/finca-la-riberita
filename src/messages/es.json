@@ -132,25 +132,25 @@
     "title": "Preguntas Frecuentes",
     "subtitle": "Encuentra respuestas a las preguntas más comunes sobre nuestro espacio",
     "items": {
-      "pricing": {
-        "question": "¿Cuánto cuesta el alquiler de la finca?",
-        "answer": "Nuestros precios de alquiler varían según el tipo de evento, día de la semana y temporada. Los paquetes de boda comienzan desde 5.000€ para celebraciones íntimas de hasta 50 invitados. Por favor, contáctanos para obtener un presupuesto personalizado según tus necesidades específicas."
-      },
       "included": {
         "question": "¿Qué incluye el alquiler?",
-        "answer": "Nuestro alquiler incluye el uso exclusivo de los espacios de la finca, montaje básico de mobiliario, instalaciones de estacionamiento, apoyo en la coordinación del evento y servicios de limpieza. Servicios adicionales como catering, decoración y entretenimiento pueden organizarse a través de nuestros proveedores preferidos o los tuyos propios."
+        "answer": "Nuestro alquiler incluye el uso exclusivo de los espacios de la finca, alojamiento en la finca para los novios con desayuno incluido, montaje básico de mobiliario, instalaciones de estacionamiento, apoyo en la coordinación del evento y servicios de limpieza. Servicios adicionales como catering, decoración y entretenimiento pueden organizarse a través de nuestros proveedores preferidos o los tuyos propios."
+      },
+      "pricing": {
+        "question": "¿Cuánto cuesta el alquiler de la finca?",
+        "answer": "El precio del alquiler varía según el tipo de evento, la fecha, el número de invitados y los espacios que se deseen contratar. Contamos con diferentes opciones pensadas para adaptarse a distintos presupuestos, desde celebraciones íntimas hasta eventos más grandes. Estamos encantados de ayudarte a encontrar la opción que mejor se ajuste a lo que buscas. ¡Contáctanos y te preparamos un presupuesto sin compromiso!"
+      },
+      "capacity": {
+        "question": "¿Cuál es la capacidad máxima?",
+        "answer": "Contamos con espacios versátiles para que tu evento sea inolvidable. Podemos acoger hasta 500 personas en formato cóctel y hasta 300 invitados en banquete. La ceremonia puede realizarse tanto al aire libre, junto a las orillas del río como en nuestros espacios interiores, adaptándonos a tus preferencias y necesidades. Además, disponemos de espacios más íntimos, ideales para encuentros y momentos especiales. Nos adaptamos a ti para que tu celebración sea perfecta."
+      },
+      "catering": {
+        "question": "¿Podemos traer nuestro propio catering?",
+        "answer": "Sí, tenéis la flexibilidad de elegir vuestro propio servicio de catering o seleccionar de nuestra lista de caterings preferidos que conocen nuestras instalaciones. Tenemos un espacio idóneo para montaje de cocina totalmente equipada disponible para uso de equipos de catering profesionales."
       },
       "accommodation": {
         "question": "¿Hay alojamiento cercano?",
         "answer": "Sí, hay varios hoteles y casas rurales a 10-15 minutos en coche de la finca. Tenemos acuerdos con alojamientos locales que ofrecen tarifas especiales para nuestros invitados. Podemos proporcionar una lista de lugares recomendados bajo petición."
-      },
-      "capacity": {
-        "question": "¿Cuál es la capacidad máxima?",
-        "answer": "Nuestra finca puede acomodar hasta 300 invitados para eventos tipo cóctel y hasta 250 invitados para cenas sentadas. El área de ceremonia al aire libre puede albergar hasta 200 invitados, mientras que nuestros espacios interiores son perfectos para reuniones más íntimas."
-      },
-      "catering": {
-        "question": "¿Podemos traer nuestro propio catering?",
-        "answer": "Sí, tienes la flexibilidad de elegir tu propio servicio de catering o seleccionar de nuestra lista de caterers preferidos que conocen nuestras instalaciones. Tenemos una cocina totalmente equipada disponible para uso de equipos de catering profesionales."
       },
       "availability": {
         "question": "¿Con cuánta anticipación debemos reservar?",
